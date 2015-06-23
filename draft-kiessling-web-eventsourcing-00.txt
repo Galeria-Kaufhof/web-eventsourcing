@@ -72,8 +72,7 @@ Table of Contents
      4.2.  Snapshot Part Syntax Example  . . . . . . . . . . . . . .   3
    5.  Change Event Feeds  . . . . . . . . . . . . . . . . . . . . .   4
      5.1.  The Event-Type HTTP Header  . . . . . . . . . . . . . . .   5
-     5.2.  The Event Type family <spanx style='verb'>http-
-           equiv</spanx> . . . . . . . . . . . . . . . . . . . . . .   5
+     5.2.  The Event Type family http-equiv  . . . . . . . . . . . .   5
      5.3.  Feed Page Syntax Example  . . . . . . . . . . . . . . . .   5
    6.  Publishing  . . . . . . . . . . . . . . . . . . . . . . . . .   6
      6.1.  Publishing Snapshots  . . . . . . . . . . . . . . . . . .   6
@@ -105,7 +104,8 @@ Table of Contents
       example multipart/events or multipart/http-requests.  (The early
       multipart/package type did something like that IIRC)
 
-
+   o  I do not like that the extensibility of the Event-Type header does
+      not include a reference mechanism to 'follow your nose'
 
 
 
@@ -113,9 +113,6 @@ Kiessling & Algermissen Expires December 25, 2015               [Page 2]
 
 Internet-Draft             Web Event Sourcing                  June 2015
 
-
-   o  I do not like that the extensibility of the Event-Type header does
-      not include a reference mechanism to 'follow your nose'
 
 2.1.  Notational Conventions
 
@@ -133,19 +130,22 @@ Internet-Draft             Web Event Sourcing                  June 2015
 
 4.1.  Snapshot Index Syntax Example
 
-   { "uris": [ "/resourcesync/product/
-   snapshot/2015-06-23T00:36:45.885Z/0", "/resourcesync/product/
-   snapshot/2015-06-23T00:36:45.885Z/1", "/resourcesync/product/
-   snapshot/2015-06-23T00:36:45.885Z/2", "/resourcesync/product/
-   snapshot/2015-06-23T00:36:45.885Z/3", "/resourcesync/product/
-   snapshot/2015-06-23T00:36:45.885Z/4", "/resourcesync/product/
-   snapshot/2015-06-23T00:36:45.885Z/5", "/resourcesync/product/
-   snapshot/2015-06-23T00:36:45.885Z/6" ], "completed": 1435019872400,
-   "started": 1435019805885, "id": "2015-06-23T00:36:45.885Z" }
+   {
+     "uris": [
+       "/resourcesync/product/snapshot/2015-06-23T00:36:45.885Z/0",
+       "/resourcesync/product/snapshot/2015-06-23T00:36:45.885Z/1",
+       "/resourcesync/product/snapshot/2015-06-23T00:36:45.885Z/2",
+       "/resourcesync/product/snapshot/2015-06-23T00:36:45.885Z/3",
+       "/resourcesync/product/snapshot/2015-06-23T00:36:45.885Z/4",
+       "/resourcesync/product/snapshot/2015-06-23T00:36:45.885Z/5",
+       "/resourcesync/product/snapshot/2015-06-23T00:36:45.885Z/6"
+     ],
+     "completed": 1435019872400,
+     "started": 1435019805885,
+     "id": "2015-06-23T00:36:45.885Z"
+   }
 
 4.2.  Snapshot Part Syntax Example
-
-
 
 
 
@@ -239,7 +239,7 @@ Internet-Draft             Web Event Sourcing                  June 2015
    Event feed publishers SHOULD only use events from a single family in
    a given feed.
 
-5.2.  The Event Type family <spanx style='verb'>http-equiv</spanx>
+5.2.  The Event Type family http-equiv
 
    This specification defines the event type family 'http-equiv'.  The
    allowed value set for this family is the set of unsafe HTTP methods,
@@ -353,7 +353,7 @@ Internet-Draft             Web Event Sourcing                  June 2015
 
 7.2.  Consuming Feeds
 
-   TBD TBD
+   TBD
 
 "Eine Snapshot-Generierung startet um T1 und endet um T2
 Beide Zeitpunkte stehen im Snapshot-index

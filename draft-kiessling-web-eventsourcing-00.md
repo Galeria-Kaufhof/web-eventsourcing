@@ -103,20 +103,20 @@ Snapshot Index Syntax Example
 -----------------------------
 
 
-{
-  "uris": [
-    "/resourcesync/product/snapshot/2015-06-23T00:36:45.885Z/0",
-    "/resourcesync/product/snapshot/2015-06-23T00:36:45.885Z/1",
-    "/resourcesync/product/snapshot/2015-06-23T00:36:45.885Z/2",
-    "/resourcesync/product/snapshot/2015-06-23T00:36:45.885Z/3",
-    "/resourcesync/product/snapshot/2015-06-23T00:36:45.885Z/4",
-    "/resourcesync/product/snapshot/2015-06-23T00:36:45.885Z/5",
-    "/resourcesync/product/snapshot/2015-06-23T00:36:45.885Z/6"
-  ],
-  "completed": 1435019872400,
-  "started": 1435019805885,
-  "id": "2015-06-23T00:36:45.885Z"
-}
+    {
+      "uris": [
+        "/resourcesync/product/snapshot/2015-06-23T00:36:45.885Z/0",
+        "/resourcesync/product/snapshot/2015-06-23T00:36:45.885Z/1",
+        "/resourcesync/product/snapshot/2015-06-23T00:36:45.885Z/2",
+        "/resourcesync/product/snapshot/2015-06-23T00:36:45.885Z/3",
+        "/resourcesync/product/snapshot/2015-06-23T00:36:45.885Z/4",
+        "/resourcesync/product/snapshot/2015-06-23T00:36:45.885Z/5",
+        "/resourcesync/product/snapshot/2015-06-23T00:36:45.885Z/6"
+      ],
+      "completed": 1435019872400,
+      "started": 1435019805885,
+      "id": "2015-06-23T00:36:45.885Z"
+    }
 
 
 
@@ -189,8 +189,8 @@ name from the family.
 Event feed publishers SHOULD only use events from a single family in a given
 feed.
 
-The Event Type family `http-equiv`
-----------------------------------
+The Event Type family http-equiv
+--------------------------------
 
 This specification defines the event type family 'http-equiv'. The allowed
 value set for this family is the set of unsafe HTTP methods, such as PUT,
@@ -279,10 +279,10 @@ Consuming Snapshots
 TBD
 - Describe when and how to process the feed afterwards. See also below.
 
+
 Consuming Feeds
 ---------------
 
-TBD
 TBD
 
     "Eine Snapshot-Generierung startet um T1 und endet um T2

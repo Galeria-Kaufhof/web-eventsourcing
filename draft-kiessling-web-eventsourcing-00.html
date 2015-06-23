@@ -383,7 +383,7 @@
 <link href="#rfc.section.4.2" rel="Chapter" title="4.2 Snapshot Part Syntax Example"/>
 <link href="#rfc.section.5" rel="Chapter" title="5 Change Event Feeds"/>
 <link href="#rfc.section.5.1" rel="Chapter" title="5.1 The Event-Type HTTP Header"/>
-<link href="#rfc.section.5.2" rel="Chapter" title="5.2 The Event Type family &lt;spanx style='verb'&gt;http-equiv&lt;/spanx&gt;"/>
+<link href="#rfc.section.5.2" rel="Chapter" title="5.2 The Event Type family http-equiv"/>
 <link href="#rfc.section.5.3" rel="Chapter" title="5.3 Feed Page Syntax Example"/>
 <link href="#rfc.section.6" rel="Chapter" title="6 Publishing"/>
 <link href="#rfc.section.6.1" rel="Chapter" title="6.1 Publishing Snapshots"/>
@@ -476,7 +476,7 @@
 <li>4.2.   <a href="#rfc.section.4.2">Snapshot Part Syntax Example</a></li>
 </ul><li>5.   <a href="#rfc.section.5">Change Event Feeds</a></li>
 <ul><li>5.1.   <a href="#rfc.section.5.1">The Event-Type HTTP Header</a></li>
-<li>5.2.   <a href="#rfc.section.5.2">The Event Type family &lt;spanx style='verb'&gt;http-equiv&lt;/spanx&gt;</a></li>
+<li>5.2.   <a href="#rfc.section.5.2">The Event Type family http-equiv</a></li>
 <li>5.3.   <a href="#rfc.section.5.3">Feed Page Syntax Example</a></li>
 </ul><li>6.   <a href="#rfc.section.6">Publishing</a></li>
 <ul><li>6.1.   <a href="#rfc.section.6.1">Publishing Snapshots</a></li>
@@ -513,7 +513,22 @@
 <h1 id="rfc.section.4"><a href="#rfc.section.4">4.</a> <a href="#snapshots" id="snapshots">Snapshots</a></h1>
 <p id="rfc.section.4.p.1">TBD</p>
 <h1 id="rfc.section.4.1"><a href="#rfc.section.4.1">4.1.</a> <a href="#snapshot-index-syntax-example" id="snapshot-index-syntax-example">Snapshot Index Syntax Example</a></h1>
-<p id="rfc.section.4.1.p.1">{ &#8220;uris&#8221;: [ &#8220;/resourcesync/product/snapshot/2015-06-23T00:36:45.885Z/0&#8221;, &#8220;/resourcesync/product/snapshot/2015-06-23T00:36:45.885Z/1&#8221;, &#8220;/resourcesync/product/snapshot/2015-06-23T00:36:45.885Z/2&#8221;, &#8220;/resourcesync/product/snapshot/2015-06-23T00:36:45.885Z/3&#8221;, &#8220;/resourcesync/product/snapshot/2015-06-23T00:36:45.885Z/4&#8221;, &#8220;/resourcesync/product/snapshot/2015-06-23T00:36:45.885Z/5&#8221;, &#8220;/resourcesync/product/snapshot/2015-06-23T00:36:45.885Z/6&#8221; ], &#8220;completed&#8221;: 1435019872400, &#8220;started&#8221;: 1435019805885, &#8220;id&#8221;: &#8220;2015-06-23T00:36:45.885Z&#8221; }</p>
+<pre>
+{
+  "uris": [
+    "/resourcesync/product/snapshot/2015-06-23T00:36:45.885Z/0",
+    "/resourcesync/product/snapshot/2015-06-23T00:36:45.885Z/1",
+    "/resourcesync/product/snapshot/2015-06-23T00:36:45.885Z/2",
+    "/resourcesync/product/snapshot/2015-06-23T00:36:45.885Z/3",
+    "/resourcesync/product/snapshot/2015-06-23T00:36:45.885Z/4",
+    "/resourcesync/product/snapshot/2015-06-23T00:36:45.885Z/5",
+    "/resourcesync/product/snapshot/2015-06-23T00:36:45.885Z/6"
+  ],
+  "completed": 1435019872400,
+  "started": 1435019805885,
+  "id": "2015-06-23T00:36:45.885Z"
+}
+</pre>
 <h1 id="rfc.section.4.2"><a href="#rfc.section.4.2">4.2.</a> <a href="#snapshot-part-syntax-example" id="snapshot-part-syntax-example">Snapshot Part Syntax Example</a></h1>
 <pre>
 HTTP/1.1 200 OK
@@ -568,7 +583,7 @@ Content-Length: 193
 <p id="rfc.section.5.1.p.1">This specification defines the <samp>Event-Type</samp> HTTP header to provide consumers of change event feeds with information about the nature of the event regarding the event target.</p>
 <p id="rfc.section.5.1.p.2">The <samp>Event-Type</samp> header takes as its value a key-value pair with the key indicating the event type family and the value indicating the event type name from the family.</p>
 <p id="rfc.section.5.1.p.3">Event feed publishers SHOULD only use events from a single family in a given feed.</p>
-<h1 id="rfc.section.5.2"><a href="#rfc.section.5.2">5.2.</a> <a href="#the-event-type-family-http-equiv" id="the-event-type-family-http-equiv">The Event Type family &lt;spanx style='verb'&gt;http-equiv&lt;/spanx&gt;</a></h1>
+<h1 id="rfc.section.5.2"><a href="#rfc.section.5.2">5.2.</a> <a href="#the-event-type-family-http-equiv" id="the-event-type-family-http-equiv">The Event Type family http-equiv</a></h1>
 <p id="rfc.section.5.2.p.1">This specification defines the event type family &#8216;http-equiv&#8217;. The allowed value set for this family is the set of unsafe HTTP methods, such as PUT, PATCH, DELETE, POST.</p>
 <p id="rfc.section.5.2.p.2">Consumers of <samp>http-equiv</samp>-typed events MUST process the event in the same way as they would process an HTTP request equivalent to the event part and HTTP method.</p>
 <pre>
@@ -625,7 +640,7 @@ Content-Length: 0
 <h1 id="rfc.section.7.1"><a href="#rfc.section.7.1">7.1.</a> <a href="#consuming-snapshots" id="consuming-snapshots">Consuming Snapshots</a></h1>
 <p id="rfc.section.7.1.p.1">TBD - Describe when and how to process the feed afterwards. See also below.</p>
 <h1 id="rfc.section.7.2"><a href="#rfc.section.7.2">7.2.</a> <a href="#consuming-feeds" id="consuming-feeds">Consuming Feeds</a></h1>
-<p id="rfc.section.7.2.p.1">TBD TBD</p>
+<p id="rfc.section.7.2.p.1">TBD</p>
 <pre>
 "Eine Snapshot-Generierung startet um T1 und endet um T2
 Beide Zeitpunkte stehen im Snapshot-index
