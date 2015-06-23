@@ -585,7 +585,7 @@ Content-Length: 193
 <p id="rfc.section.5.1.p.3">Event feed publishers SHOULD only use events from a single family in a given feed.</p>
 <h1 id="rfc.section.5.2"><a href="#rfc.section.5.2">5.2.</a> <a href="#the-event-type-family-http-equiv" id="the-event-type-family-http-equiv">The Event Type family http-equiv</a></h1>
 <p id="rfc.section.5.2.p.1">This specification defines the event type family &#8216;http-equiv&#8217;. The allowed value set for this family is the set of unsafe HTTP methods, such as PUT, PATCH, DELETE, POST.</p>
-<p id="rfc.section.5.2.p.2">Consumers of <samp>http-equiv</samp>-typed events MUST process the event in the same way as they would process an HTTP request equivalent to the event part and HTTP method.</p>
+<p id="rfc.section.5.2.p.2">Consumers of <samp>http-equiv</samp>-typed events MUST process the event in the same way as they would process an HTTP request equivalent to the given event part, HTTP method and a target resource identified by the about-Link.</p>
 <pre>
 Event-Type: http-equiv=PUT
 </pre>

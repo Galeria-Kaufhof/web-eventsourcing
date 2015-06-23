@@ -197,8 +197,8 @@ value set for this family is the set of unsafe HTTP methods, such as PUT,
 PATCH, DELETE, POST.
 
 Consumers of `http-equiv`-typed events MUST process the event in the same
-way as they would process an HTTP request equivalent to the event part and
-HTTP method.
+way as they would process an HTTP request equivalent to the given event part,
+HTTP method and a target resource identified by the about-Link.
 
     Event-Type: http-equiv=PUT
 

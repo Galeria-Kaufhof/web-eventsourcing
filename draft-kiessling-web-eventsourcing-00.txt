@@ -247,14 +247,14 @@ Internet-Draft             Web Event Sourcing                  June 2015
 
    Consumers of "http-equiv"-typed events MUST process the event in the
    same way as they would process an HTTP request equivalent to the
-   event part and HTTP method.
+   given event part, HTTP method and a target resource identified by the
+   about-Link.
 
    Event-Type: http-equiv=PUT
 
    TBD: Provide example of a single part and describe processing.
 
 5.3.  Feed Page Syntax Example
-
 
 
 
