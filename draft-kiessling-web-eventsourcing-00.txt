@@ -1,0 +1,504 @@
+
+
+
+
+Network Working Group                                       M. Kiessling
+Internet-Draft                                           GALERIA Kaufhof
+Intended status: Informational                            J. Algermissen
+Expires: December 25, 2015                                 June 23, 2015
+
+
+      Web Event Sourcing - A Web-based protocol for event sourcing
+                  draft-kiessling-web-eventsourcing-00
+
+Abstract
+
+   This document describes HTTP based event sourcing.
+
+Note to Readers
+
+   This draft should be discussed on the apps-discuss mailing list; see
+   [apps-discuss].
+
+Status of This Memo
+
+   This Internet-Draft is submitted in full conformance with the
+   provisions of BCP 78 and BCP 79.
+
+   Internet-Drafts are working documents of the Internet Engineering
+   Task Force (IETF).  Note that other groups may also distribute
+   working documents as Internet-Drafts.  The list of current Internet-
+   Drafts is at http://datatracker.ietf.org/drafts/current/.
+
+   Internet-Drafts are draft documents valid for a maximum of six months
+   and may be updated, replaced, or obsoleted by other documents at any
+   time.  It is inappropriate to use Internet-Drafts as reference
+   material or to cite them other than as "work in progress."
+
+   This Internet-Draft will expire on December 25, 2015.
+
+Copyright Notice
+
+   Copyright (c) 2015 IETF Trust and the persons identified as the
+   document authors.  All rights reserved.
+
+   This document is subject to BCP 78 and the IETF Trust's Legal
+   Provisions Relating to IETF Documents
+   (http://trustee.ietf.org/license-info) in effect on the date of
+   publication of this document.  Please review these documents
+   carefully, as they describe your rights and restrictions with respect
+   to this document.  Code Components extracted from this document must
+   include Simplified BSD License text as described in Section 4.e of
+
+
+
+
+Kiessling & Algermissen Expires December 25, 2015               [Page 1]
+
+Internet-Draft             Web Event Sourcing                  June 2015
+
+
+   the Trust Legal Provisions and are provided without warranty as
+   described in the Simplified BSD License.
+
+Table of Contents
+
+   1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
+   2.  Open Issues . . . . . . . . . . . . . . . . . . . . . . . . .   2
+     2.1.  Notational Conventions  . . . . . . . . . . . . . . . . .   3
+   3.  Event Sourcing on The Web . . . . . . . . . . . . . . . . . .   3
+   4.  Snapshots . . . . . . . . . . . . . . . . . . . . . . . . . .   3
+     4.1.  Snapshot Index Syntax Example . . . . . . . . . . . . . .   3
+     4.2.  Snapshot Part Syntax Example  . . . . . . . . . . . . . .   3
+   5.  Change Event Feeds  . . . . . . . . . . . . . . . . . . . . .   4
+     5.1.  The Event-Type HTTP Header  . . . . . . . . . . . . . . .   5
+     5.2.  The Event Type family <spanx style='verb'>http-
+           equiv</spanx> . . . . . . . . . . . . . . . . . . . . . .   5
+     5.3.  Feed Page Syntax Example  . . . . . . . . . . . . . . . .   5
+   6.  Publishing  . . . . . . . . . . . . . . . . . . . . . . . . .   6
+     6.1.  Publishing Snapshots  . . . . . . . . . . . . . . . . . .   6
+     6.2.  Publishing Feeds  . . . . . . . . . . . . . . . . . . . .   7
+   7.  Consuming . . . . . . . . . . . . . . . . . . . . . . . . . .   7
+     7.1.  Consuming Snapshots . . . . . . . . . . . . . . . . . . .   7
+     7.2.  Consuming Feeds . . . . . . . . . . . . . . . . . . . . .   7
+   8.  Security Considerations . . . . . . . . . . . . . . . . . . .   8
+   9.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   8
+     9.1.  Normative References  . . . . . . . . . . . . . . . . . .   8
+     9.2.  Informative References  . . . . . . . . . . . . . . . . .   8
+   Appendix A.  Acknowledgements . . . . . . . . . . . . . . . . . .   8
+   Appendix B.  Frequently Asked Questions . . . . . . . . . . . . .   8
+   Appendix C.  Open Issues  . . . . . . . . . . . . . . . . . . . .   8
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .   9
+
+1.  Introduction
+
+   TBD
+
+2.  Open Issues
+
+   o  We could sacrifice Event-Type extensibility to make the Event-Type
+      header more easy to process and just define the value as any
+      unsafe HTTP method.
+
+   o  We should define a specialized multipart subtype to express the
+      requirement to include a Content-ID header in the parts.  For
+      example multipart/events or multipart/http-requests.  (The early
+      multipart/package type did something like that IIRC)
+
+
+
+
+
+Kiessling & Algermissen Expires December 25, 2015               [Page 2]
+
+Internet-Draft             Web Event Sourcing                  June 2015
+
+
+   o  I do not like that the extensibility of the Event-Type header does
+      not include a reference mechanism to 'follow your nose'
+
+2.1.  Notational Conventions
+
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
+   document are to be interpreted as described in
+
+3.  Event Sourcing on The Web
+
+   TBD
+
+4.  Snapshots
+
+   TBD
+
+4.1.  Snapshot Index Syntax Example
+
+   { "uris": [ "/resourcesync/product/
+   snapshot/2015-06-23T00:36:45.885Z/0", "/resourcesync/product/
+   snapshot/2015-06-23T00:36:45.885Z/1", "/resourcesync/product/
+   snapshot/2015-06-23T00:36:45.885Z/2", "/resourcesync/product/
+   snapshot/2015-06-23T00:36:45.885Z/3", "/resourcesync/product/
+   snapshot/2015-06-23T00:36:45.885Z/4", "/resourcesync/product/
+   snapshot/2015-06-23T00:36:45.885Z/5", "/resourcesync/product/
+   snapshot/2015-06-23T00:36:45.885Z/6" ], "completed": 1435019872400,
+   "started": 1435019805885, "id": "2015-06-23T00:36:45.885Z" }
+
+4.2.  Snapshot Part Syntax Example
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Kiessling & Algermissen Expires December 25, 2015               [Page 3]
+
+Internet-Draft             Web Event Sourcing                  June 2015
+
+
+HTTP/1.1 200 OK
+Server: Tengine/2.1.0
+Date: Tue, 23 Jun 2015 07:15:47 GMT
+Content-Type: multipart/package; boundary="_-------------1435019846753"
+Content-Length: 3159122
+Connection: keep-alive
+
+Content-Disposition: inline
+Content-Type: application/vnd.acme.product+json
+Content-Location: /products/16325906:001:99999
+ETag: W/"12345678"
+Content-Length: 93
+
+{"id":"16325906:001:99999","assets":[{"id":"930770","role":"spot"},{"id":"9424","role":"1"}]}
+--_-------------1435019846753
+Content-Disposition: inline
+Content-Type: application/vnd.acme.product+json
+Content-Location: /product/16326538:001:99999
+ETag: W/"12345678"
+Content-Length: 93
+
+{"id":"16326538:001:99999","assets":[{"id":"931862","role":"spot"},{"id":"9425","role":"1"}]}
+--_-------------1435019846753
+Content-Disposition: inline
+Content-Type: application/vnd.acme.product+json
+Content-Location: /product/16326590:001:99999
+ETag: W/"12345678"
+Content-Length: 93
+
+{"id":"16326590:001:99999","assets":[{"id":"914839","role":"spot"},{"id":"9408","role":"1"}]}
+--_-------------1435019846753
+Content-Disposition: inline
+Content-Type: application/vnd.acme.product+json
+Content-Location: /product/16327887:001:99999
+ETag: "12345678"
+Content-Length: 193
+
+{"id":"16327887:001:99999","assets":[{"id":"9517","role":"2"},{"id":"919130","role":"spot"},{"id":"9518","role":"1"},{"id":"9514","role":"5"},{"id":"9515","role":"3"},{"id":"9516","role":"4"}]}
+--_-------------1435019846753--
+
+5.  Change Event Feeds
+
+   TBD
+
+   o  Define the term "event target".
+
+   o  Define the term "event part".
+
+
+
+
+Kiessling & Algermissen Expires December 25, 2015               [Page 4]
+
+Internet-Draft             Web Event Sourcing                  June 2015
+
+
+5.1.  The Event-Type HTTP Header
+
+   This specification defines the "Event-Type" HTTP header to provide
+   consumers of change event feeds with information about the nature of
+   the event regarding the event target.
+
+   The "Event-Type" header takes as its value a key-value pair with the
+   key indicating the event type family and the value indicating the
+   event type name from the family.
+
+   Event feed publishers SHOULD only use events from a single family in
+   a given feed.
+
+5.2.  The Event Type family <spanx style='verb'>http-equiv</spanx>
+
+   This specification defines the event type family 'http-equiv'.  The
+   allowed value set for this family is the set of unsafe HTTP methods,
+   such as PUT, PATCH, DELETE, POST.
+
+   Consumers of "http-equiv"-typed events MUST process the event in the
+   same way as they would process an HTTP request equivalent to the
+   event part and HTTP method.
+
+   Event-Type: http-equiv=PUT
+
+   TBD: Provide example of a single part and describe processing.
+
+5.3.  Feed Page Syntax Example
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Kiessling & Algermissen Expires December 25, 2015               [Page 5]
+
+Internet-Draft             Web Event Sourcing                  June 2015
+
+
+   GET /products/changes/latest
+   Accept: multipart/mixed
+
+   200 Ok
+   Last-Modified: Sat, 11 Jan 2014 05:00:13 GMT
+   ETag: "abc"
+   Cache-Control: no-cache
+   Link: </products/changes/2013/01/01/16>; rel="prev"
+   Content-Type: multipart/mixed; boundary="gc0p4Jq0M:2Yt08jU534c0p"
+
+   --gc0p4Jq0M:2Yt08jU534c0p
+   Link: </products/7628827272>;rel="about"
+   Event-Type: http-equiv=PUT
+   Content-Type: application/vnd.gkh.product+json
+   Last-Modified: Sat, 09 Jan 2014 15:02:23 GMT
+   Content-ID: <1234@products.example.org>
+   Content-Length: nnn
+
+   {"id":"..." , ... }
+   --gc0p4Jq0M:2Yt08jU534c0p
+   Link: </products/7623288273>;rel="about"
+   Event-Type: http-equiv=PATCH
+   Content-Type: application/vnd.gkh.product-patch+xml
+   Last-Modified: Sat, 09 Jan 2014 15:02:23 GMT
+   Content-ID: <567@products.example.org>
+   Content-Length: nnn
+
+   <product-patch>
+     <set-availability>AVAILABLE</set-availability>
+   </product-patch>
+   --gc0p4Jq0M:2Yt08jU534c0p
+   Link: </products/3338827272>;rel="about"
+   Event-Type: http-equiv=DELETE
+   Last-Modified: Sat, 09 Jan 2014 15:02:23 GMT
+   Content-ID: <899919@products.example.org>
+   Content-Length: 0
+
+   --gc0p4Jq0M:2Yt08jU534c0p--
+
+6.  Publishing
+
+6.1.  Publishing Snapshots
+
+   TBD
+
+
+
+
+
+
+
+Kiessling & Algermissen Expires December 25, 2015               [Page 6]
+
+Internet-Draft             Web Event Sourcing                  June 2015
+
+
+6.2.  Publishing Feeds
+
+   TBD - explain 'latest' - explain prev and pre-archive and switching
+   to prev-archive (analog https://tools.ietf.org/html/rfc5005) - Make
+   5005 normative -
+
+7.  Consuming
+
+7.1.  Consuming Snapshots
+
+   TBD - Describe when and how to process the feed afterwards.  See also
+   below.
+
+7.2.  Consuming Feeds
+
+   TBD TBD
+
+"Eine Snapshot-Generierung startet um T1 und endet um T2
+Beide Zeitpunkte stehen im Snapshot-index
+
+Client startet Snapshot-Konsum um T3 und beendet Snapshot Konsum um T4
+
+Mit T1 < T2 < T3 < T4
+
+Client muss nun ab einschliesslich T1 den Feed lesen, um zu ermitteln,
+welche 'items' sich waehrend der Snapshot-Erzeugung und Konsum geaendert
+haben.
+
+Dabei liest der Client den Feed  ab einschliesslich T1 bis zu einem T5
+knapp groesser als T4 und merkt sich die ID des Events (Event ID ==
+"Content-ID" header des Event-Parts im Feed).
+
+Fuer alle diese items holt der Client per GET den aktuellen Stand ab (bei
+Loesch-Events wird das item geloescht).
+
+Danach liest der Client den Feed weiter ab der gemerkten Content-ID.
+(Content-Ids sind per existierendem RFC eindeutig in einem
+Multipart-Dokument). Ab jetzt koennen auch PATCH-Updates angewendet werden.
+
+Die Granularitaet der Timestamps ist dabei egal und es muss eigentlich auch
+nichts mehr spezifiziert werden (hoechstens, dass innerhalb des Feeds die
+Events jedes gegebenen items im Falle von PATCH-Sematik je item zeitlich
+sortiert sein muessen)"
+
+   If consumers that process snapshot and feed in parallel encounter
+   events from the snapshot and the feed that apply to the same target
+   resource and have the same timestamp they MUST apply the event from
+   the feed, not the snapshot entity.
+
+
+
+Kiessling & Algermissen Expires December 25, 2015               [Page 7]
+
+Internet-Draft             Web Event Sourcing                  June 2015
+
+
+8.  Security Considerations
+
+   TBD
+
+9.  References
+
+9.1.  Normative References
+
+   [RFC4229]  Nottingham, M. and J. Mogul, "HTTP Header Field
+              Registrations", RFC 4229, December 2005.
+
+   [RFC5005]  Nottingham, M., "Feed Paging and Archiving", RFC 5005,
+              September 2007.
+
+   [RFC7231]  Fielding, R. and J. Reschke, "Hypertext Transfer Protocol
+              (HTTP/1.1): Semantics and Content", RFC 7231, June 2014.
+
+9.2.  Informative References
+
+   [apps-discuss]
+              IETF, "IETF Apps-Discuss Mailing List", n.d.,
+              <https://www.ietf.org/mailman/listinfo/apps-discuss>.
+
+   [I-D.snell-http-prefer]
+              Snell, J., "Prefer Header for HTTP", draft-snell-http-
+              prefer-18 (work in progress), January 2013.
+
+   [ResourceSync]
+              TBD, . and TBD, "ResourceSync Framework Specification",
+              n.d., <http://www.openarchives.org/rs>.
+
+   [RFC5789]  Dusseault, L. and J. Snell, "PATCH Method for HTTP", RFC
+              5789, March 2010.
+
+Appendix A.  Acknowledgements
+
+   Thanks to TBD
+
+Appendix B.  Frequently Asked Questions
+
+   TBD
+
+Appendix C.  Open Issues
+
+   TBD
+
+
+
+
+
+
+Kiessling & Algermissen Expires December 25, 2015               [Page 8]
+
+Internet-Draft             Web Event Sourcing                  June 2015
+
+
+Authors' Addresses
+
+   Manuel Kiessling
+   GALERIA Kaufhof
+
+   Email: manuel.kiessling@kaufhof.de
+   URI:   http://www.galeria-kaufhof.de
+
+
+   Jan Algermissen
+
+   Email: algermissen@acm.org
+   URI:   http://www.jalg.net/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Kiessling & Algermissen Expires December 25, 2015               [Page 9]
