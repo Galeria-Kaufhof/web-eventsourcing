@@ -1,0 +1,771 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head profile="http://www.w3.org/2006/03/hcard http://dublincore.org/documents/2008/08/04/dc-html/">
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+
+  <title>Web Event Sourcing - A Web-based protocol for event sourcing</title>
+
+  <style type="text/css" title="Xml2Rfc (sans serif)">
+  /*<![CDATA[*/
+	  a {
+	  text-decoration: none;
+	  }
+      /* info code from SantaKlauss at http://www.madaboutstyle.com/tooltip2.html */
+      a.info {
+          /* This is the key. */
+          position: relative;
+          z-index: 24;
+          text-decoration: none;
+      }
+      a.info:hover {
+          z-index: 25;
+          color: #FFF; background-color: #900;
+      }
+      a.info span { display: none; }
+      a.info:hover span.info {
+          /* The span will display just on :hover state. */
+          display: block;
+          position: absolute;
+          font-size: smaller;
+          top: 2em; left: -5em; width: 15em;
+          padding: 2px; border: 1px solid #333;
+          color: #900; background-color: #EEE;
+          text-align: left;
+      }
+	  a.smpl {
+	  color: black;
+	  }
+	  a:hover {
+	  text-decoration: underline;
+	  }
+	  a:active {
+	  text-decoration: underline;
+	  }
+	  address {
+	  margin-top: 1em;
+	  margin-left: 2em;
+	  font-style: normal;
+	  }
+	  body {
+	  color: black;
+	  font-family: verdana, helvetica, arial, sans-serif;
+	  font-size: 10pt;
+	  max-width: 55em;
+	  
+	  }
+	  cite {
+	  font-style: normal;
+	  }
+	  dd {
+	  margin-right: 2em;
+	  }
+	  dl {
+	  margin-left: 2em;
+	  }
+	
+	  ul.empty {
+	  list-style-type: none;
+	  }
+	  ul.empty li {
+	  margin-top: .5em;
+	  }
+	  dl p {
+	  margin-left: 0em;
+	  }
+	  dt {
+	  margin-top: .5em;
+	  }
+	  h1 {
+	  font-size: 14pt;
+	  line-height: 21pt;
+	  page-break-after: avoid;
+	  }
+	  h1.np {
+	  page-break-before: always;
+	  }
+	  h1 a {
+	  color: #333333;
+	  }
+	  h2 {
+	  font-size: 12pt;
+	  line-height: 15pt;
+	  page-break-after: avoid;
+	  }
+	  h3, h4, h5, h6 {
+	  font-size: 10pt;
+	  page-break-after: avoid;
+	  }
+	  h2 a, h3 a, h4 a, h5 a, h6 a {
+	  color: black;
+	  }
+	  img {
+	  margin-left: 3em;
+	  }
+	  li {
+	  margin-left: 2em;
+	  margin-right: 2em;
+	  }
+	  ol {
+	  margin-left: 2em;
+	  margin-right: 2em;
+	  }
+	  ol p {
+	  margin-left: 0em;
+	  }
+	  p {
+	  margin-left: 2em;
+	  margin-right: 2em;
+	  }
+	  pre {
+	  margin-left: 3em;
+	  background-color: lightyellow;
+	  padding: .25em;
+	  }
+	  pre.text2 {
+	  border-style: dotted;
+	  border-width: 1px;
+	  background-color: #f0f0f0;
+	  width: 69em;
+	  }
+	  pre.inline {
+	  background-color: white;
+	  padding: 0em;
+	  }
+	  pre.text {
+	  border-style: dotted;
+	  border-width: 1px;
+	  background-color: #f8f8f8;
+	  width: 69em;
+	  }
+	  pre.drawing {
+	  border-style: solid;
+	  border-width: 1px;
+	  background-color: #f8f8f8;
+	  padding: 2em;
+	  }
+	  table {
+	  margin-left: 2em;
+	  }
+	  table.tt {
+	  vertical-align: top;
+	  }
+	  table.full {
+	  border-style: outset;
+	  border-width: 1px;
+	  }
+	  table.headers {
+	  border-style: outset;
+	  border-width: 1px;
+	  }
+	  table.tt td {
+	  vertical-align: top;
+	  }
+	  table.full td {
+	  border-style: inset;
+	  border-width: 1px;
+	  }
+	  table.tt th {
+	  vertical-align: top;
+	  }
+	  table.full th {
+	  border-style: inset;
+	  border-width: 1px;
+	  }
+	  table.headers th {
+	  border-style: none none inset none;
+	  border-width: 1px;
+	  }
+	  table.left {
+	  margin-right: auto;
+	  }
+	  table.right {
+	  margin-left: auto;
+	  }
+	  table.center {
+	  margin-left: auto;
+	  margin-right: auto;
+	  }
+	  caption {
+	  caption-side: bottom;
+	  font-weight: bold;
+	  font-size: 9pt;
+	  margin-top: .5em;
+	  }
+	
+	  table.header {
+	  border-spacing: 1px;
+	  width: 95%;
+	  font-size: 10pt;
+	  color: white;
+	  }
+	  td.top {
+	  vertical-align: top;
+	  }
+	  td.topnowrap {
+	  vertical-align: top;
+	  white-space: nowrap; 
+	  }
+	  table.header td {
+	  background-color: gray;
+	  width: 50%;
+	  }
+	  table.header a {
+	  color: white;
+	  }
+	  td.reference {
+	  vertical-align: top;
+	  white-space: nowrap;
+	  padding-right: 1em;
+	  }
+	  thead {
+	  display:table-header-group;
+	  }
+	  ul.toc, ul.toc ul {
+	  list-style: none;
+	  margin-left: 1.5em;
+	  margin-right: 0em;
+	  padding-left: 0em;
+	  }
+	  ul.toc li {
+	  line-height: 150%;
+	  font-weight: bold;
+	  font-size: 10pt;
+	  margin-left: 0em;
+	  margin-right: 0em;
+	  }
+	  ul.toc li li {
+	  line-height: normal;
+	  font-weight: normal;
+	  font-size: 9pt;
+	  margin-left: 0em;
+	  margin-right: 0em;
+	  }
+	  li.excluded {
+	  font-size: 0pt;
+	  }
+	  ul p {
+	  margin-left: 0em;
+	  }
+	
+	  .comment {
+	  background-color: yellow;
+	  }
+	  .center {
+	  text-align: center;
+	  }
+	  .error {
+	  color: red;
+	  font-style: italic;
+	  font-weight: bold;
+	  }
+	  .figure {
+	  font-weight: bold;
+	  text-align: center;
+	  font-size: 9pt;
+	  }
+	  .filename {
+	  color: #333333;
+	  font-weight: bold;
+	  font-size: 12pt;
+	  line-height: 21pt;
+	  text-align: center;
+	  }
+	  .fn {
+	  font-weight: bold;
+	  }
+	  .hidden {
+	  display: none;
+	  }
+	  .left {
+	  text-align: left;
+	  }
+	  .right {
+	  text-align: right;
+	  }
+	  .title {
+	  color: #990000;
+	  font-size: 18pt;
+	  line-height: 18pt;
+	  font-weight: bold;
+	  text-align: center;
+	  margin-top: 36pt;
+	  }
+	  .vcardline {
+	  display: block;
+	  }
+	  .warning {
+	  font-size: 14pt;
+	  background-color: yellow;
+	  }
+	
+	
+	  @media print {
+	  .noprint {
+		display: none;
+	  }
+	
+	  a {
+		color: black;
+		text-decoration: none;
+	  }
+	
+	  table.header {
+		width: 90%;
+	  }
+	
+	  td.header {
+		width: 50%;
+		color: black;
+		background-color: white;
+		vertical-align: top;
+		font-size: 12pt;
+	  }
+	
+	  ul.toc a::after {
+		content: leader('.') target-counter(attr(href), page);
+	  }
+	
+	  ul.ind li li a {
+		content: target-counter(attr(href), page);
+	  }
+	
+	  .print2col {
+		column-count: 2;
+		-moz-column-count: 2;
+		column-fill: auto;
+	  }
+	  }
+	
+	  @page {
+	  @top-left {
+		   content: "Internet-Draft"; 
+	  } 
+	  @top-right {
+		   content: "December 2010"; 
+	  } 
+	  @top-center {
+		   content: "Abbreviated Title";
+	  } 
+	  @bottom-left {
+		   content: "Doe"; 
+	  } 
+	  @bottom-center {
+		   content: "Expires June 2011"; 
+	  } 
+	  @bottom-right {
+		   content: "[Page " counter(page) "]"; 
+	  } 
+	  }
+	
+	  @page:first { 
+		@top-left {
+		  content: normal;
+		}
+		@top-right {
+		  content: normal;
+		}
+		@top-center {
+		  content: normal;
+		}
+	  }
+  /*]]>*/
+  </style>
+
+  <link href="#rfc.toc" rel="Contents"/>
+<link href="#rfc.section.1" rel="Chapter" title="1 Introduction"/>
+<link href="#rfc.section.2" rel="Chapter" title="2 Open Issues"/>
+<link href="#rfc.section.2.1" rel="Chapter" title="2.1 Notational Conventions"/>
+<link href="#rfc.section.3" rel="Chapter" title="3 Event Sourcing on The Web"/>
+<link href="#rfc.section.4" rel="Chapter" title="4 Snapshots"/>
+<link href="#rfc.section.4.1" rel="Chapter" title="4.1 Snapshot Index Syntax Example"/>
+<link href="#rfc.section.4.2" rel="Chapter" title="4.2 Snapshot Part Syntax Example"/>
+<link href="#rfc.section.5" rel="Chapter" title="5 Change Event Feeds"/>
+<link href="#rfc.section.5.1" rel="Chapter" title="5.1 The Event-Type HTTP Header"/>
+<link href="#rfc.section.5.2" rel="Chapter" title="5.2 The Event Type family &lt;spanx style='verb'&gt;http-equiv&lt;/spanx&gt;"/>
+<link href="#rfc.section.5.3" rel="Chapter" title="5.3 Feed Page Syntax Example"/>
+<link href="#rfc.section.6" rel="Chapter" title="6 Publishing"/>
+<link href="#rfc.section.6.1" rel="Chapter" title="6.1 Publishing Snapshots"/>
+<link href="#rfc.section.6.2" rel="Chapter" title="6.2 Publishing Feeds"/>
+<link href="#rfc.section.7" rel="Chapter" title="7 Consuming"/>
+<link href="#rfc.section.7.1" rel="Chapter" title="7.1 Consuming Snapshots"/>
+<link href="#rfc.section.7.2" rel="Chapter" title="7.2 Consuming Feeds"/>
+<link href="#rfc.section.8" rel="Chapter" title="8 Security Considerations"/>
+<link href="#rfc.references" rel="Chapter" title="9 References"/>
+<link href="#rfc.references.1" rel="Chapter" title="9.1 Normative References"/>
+<link href="#rfc.references.2" rel="Chapter" title="9.2 Informative References"/>
+<link href="#rfc.appendix.A" rel="Chapter" title="A Acknowledgements"/>
+<link href="#rfc.appendix.B" rel="Chapter" title="B Frequently Asked Questions"/>
+<link href="#rfc.appendix.C" rel="Chapter" title="C Open Issues"/>
+<link href="#rfc.authors" rel="Chapter"/>
+
+
+  <meta name="generator" content="xml2rfc version 2.5.0 - http://tools.ietf.org/tools/xml2rfc" />
+  <link rel="schema.dct" href="http://purl.org/dc/terms/" />
+
+  <meta name="dct.creator" content="Kiessling, M. and J. Algermissen" />
+  <meta name="dct.identifier" content="urn:ietf:id:draft-kiessling-web-eventsourcing-00" />
+  <meta name="dct.issued" scheme="ISO8601" content="2015-6-23" />
+  <meta name="dct.abstract" content="This document describes HTTP based event sourcing." />
+  <meta name="description" content="This document describes HTTP based event sourcing." />
+
+</head>
+
+<body>
+
+  <table class="header">
+    <tbody>
+    
+    	<tr>
+  <td class="left">Network Working Group</td>
+  <td class="right">M. Kiessling</td>
+</tr>
+<tr>
+  <td class="left">Internet-Draft</td>
+  <td class="right">GALERIA Kaufhof</td>
+</tr>
+<tr>
+  <td class="left">Intended status: Informational</td>
+  <td class="right">J. Algermissen</td>
+</tr>
+<tr>
+  <td class="left">Expires: December 25, 2015</td>
+  <td class="right">June 23, 2015</td>
+</tr>
+
+    	
+    </tbody>
+  </table>
+
+  <p class="title">Web Event Sourcing - A Web-based protocol for event sourcing<br />
+  <span class="filename">draft-kiessling-web-eventsourcing-00</span></p>
+  
+  <h1 id="rfc.abstract">
+  <a href="#rfc.abstract">Abstract</a>
+</h1>
+<p>This document describes HTTP based event sourcing.</p>
+<h1>
+  <a>Note to Readers</a>
+</h1>
+<p>This draft should be discussed on the apps-discuss mailing list; see <a href="#apps-discuss">[apps-discuss]</a>.</p>
+<h1 id="rfc.status">
+  <a href="#rfc.status">Status of This Memo</a>
+</h1>
+<p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
+<p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at http://datatracker.ietf.org/drafts/current/.</p>
+<p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
+<p>This Internet-Draft will expire on December 25, 2015.</p>
+<h1 id="rfc.copyrightnotice">
+  <a href="#rfc.copyrightnotice">Copyright Notice</a>
+</h1>
+<p>Copyright (c) 2015 IETF Trust and the persons identified as the document authors.  All rights reserved.</p>
+<p>This document is subject to BCP 78 and the IETF Trust's Legal Provisions Relating to IETF Documents (http://trustee.ietf.org/license-info) in effect on the date of publication of this document.  Please review these documents carefully, as they describe your rights and restrictions with respect to this document.  Code Components extracted from this document must include Simplified BSD License text as described in Section 4.e of the Trust Legal Provisions and are provided without warranty as described in the Simplified BSD License.</p>
+
+  
+  <hr class="noprint" />
+  <h1 class="np" id="rfc.toc"><a href="#rfc.toc">Table of Contents</a></h1>
+  <ul class="toc">
+
+  	<li>1.   <a href="#rfc.section.1">Introduction</a></li>
+<li>2.   <a href="#rfc.section.2">Open Issues</a></li>
+<ul><li>2.1.   <a href="#rfc.section.2.1">Notational Conventions</a></li>
+</ul><li>3.   <a href="#rfc.section.3">Event Sourcing on The Web</a></li>
+<li>4.   <a href="#rfc.section.4">Snapshots</a></li>
+<ul><li>4.1.   <a href="#rfc.section.4.1">Snapshot Index Syntax Example</a></li>
+<li>4.2.   <a href="#rfc.section.4.2">Snapshot Part Syntax Example</a></li>
+</ul><li>5.   <a href="#rfc.section.5">Change Event Feeds</a></li>
+<ul><li>5.1.   <a href="#rfc.section.5.1">The Event-Type HTTP Header</a></li>
+<li>5.2.   <a href="#rfc.section.5.2">The Event Type family &lt;spanx style='verb'&gt;http-equiv&lt;/spanx&gt;</a></li>
+<li>5.3.   <a href="#rfc.section.5.3">Feed Page Syntax Example</a></li>
+</ul><li>6.   <a href="#rfc.section.6">Publishing</a></li>
+<ul><li>6.1.   <a href="#rfc.section.6.1">Publishing Snapshots</a></li>
+<li>6.2.   <a href="#rfc.section.6.2">Publishing Feeds</a></li>
+</ul><li>7.   <a href="#rfc.section.7">Consuming</a></li>
+<ul><li>7.1.   <a href="#rfc.section.7.1">Consuming Snapshots</a></li>
+<li>7.2.   <a href="#rfc.section.7.2">Consuming Feeds</a></li>
+</ul><li>8.   <a href="#rfc.section.8">Security Considerations</a></li>
+<li>9.   <a href="#rfc.references">References</a></li>
+<ul><li>9.1.   <a href="#rfc.references.1">Normative References</a></li>
+<li>9.2.   <a href="#rfc.references.2">Informative References</a></li>
+</ul><li>Appendix A.   <a href="#rfc.appendix.A">Acknowledgements</a></li>
+<li>Appendix B.   <a href="#rfc.appendix.B">Frequently Asked Questions</a></li>
+<li>Appendix C.   <a href="#rfc.appendix.C">Open Issues</a></li>
+<li><a href="#rfc.authors">Authors' Addresses</a></li>
+
+
+  </ul>
+
+  <h1 id="rfc.section.1"><a href="#rfc.section.1">1.</a> <a href="#introduction" id="introduction">Introduction</a></h1>
+<p id="rfc.section.1.p.1">TBD</p>
+<h1 id="rfc.section.2"><a href="#rfc.section.2">2.</a> <a href="#open-issues" id="open-issues">Open Issues</a></h1>
+<p/>
+
+<ul>
+  <li>We could sacrifice Event-Type extensibility to make the Event-Type header more easy to process and just define the value as any unsafe HTTP method.</li>
+  <li>We should define a specialized multipart subtype to express the requirement to include a Content-ID header in the parts. For example multipart/events or multipart/http-requests.  (The early multipart/package type did something like that IIRC)</li>
+  <li>I do not like that the extensibility of the Event-Type header does not include a reference mechanism to &#8216;follow your nose&#8217;</li>
+</ul>
+<h1 id="rfc.section.2.1"><a href="#rfc.section.2.1">2.1.</a> <a href="#notational-conventions" id="notational-conventions">Notational Conventions</a></h1>
+<p id="rfc.section.2.1.p.1">The key words &#8220;MUST&#8221;, &#8220;MUST NOT&#8221;, &#8220;REQUIRED&#8221;, &#8220;SHALL&#8221;, &#8220;SHALL NOT&#8221;, &#8220;SHOULD&#8221;, &#8220;SHOULD NOT&#8221;, &#8220;RECOMMENDED&#8221;, &#8220;MAY&#8221;, and &#8220;OPTIONAL&#8221; in this document are to be interpreted as described in </p>
+<h1 id="rfc.section.3"><a href="#rfc.section.3">3.</a> <a href="#event-sourcing-on-the-web" id="event-sourcing-on-the-web">Event Sourcing on The Web</a></h1>
+<p id="rfc.section.3.p.1">TBD</p>
+<h1 id="rfc.section.4"><a href="#rfc.section.4">4.</a> <a href="#snapshots" id="snapshots">Snapshots</a></h1>
+<p id="rfc.section.4.p.1">TBD</p>
+<h1 id="rfc.section.4.1"><a href="#rfc.section.4.1">4.1.</a> <a href="#snapshot-index-syntax-example" id="snapshot-index-syntax-example">Snapshot Index Syntax Example</a></h1>
+<p id="rfc.section.4.1.p.1">{ &#8220;uris&#8221;: [ &#8220;/resourcesync/product/snapshot/2015-06-23T00:36:45.885Z/0&#8221;, &#8220;/resourcesync/product/snapshot/2015-06-23T00:36:45.885Z/1&#8221;, &#8220;/resourcesync/product/snapshot/2015-06-23T00:36:45.885Z/2&#8221;, &#8220;/resourcesync/product/snapshot/2015-06-23T00:36:45.885Z/3&#8221;, &#8220;/resourcesync/product/snapshot/2015-06-23T00:36:45.885Z/4&#8221;, &#8220;/resourcesync/product/snapshot/2015-06-23T00:36:45.885Z/5&#8221;, &#8220;/resourcesync/product/snapshot/2015-06-23T00:36:45.885Z/6&#8221; ], &#8220;completed&#8221;: 1435019872400, &#8220;started&#8221;: 1435019805885, &#8220;id&#8221;: &#8220;2015-06-23T00:36:45.885Z&#8221; }</p>
+<h1 id="rfc.section.4.2"><a href="#rfc.section.4.2">4.2.</a> <a href="#snapshot-part-syntax-example" id="snapshot-part-syntax-example">Snapshot Part Syntax Example</a></h1>
+<pre>
+HTTP/1.1 200 OK
+Server: Tengine/2.1.0
+Date: Tue, 23 Jun 2015 07:15:47 GMT
+Content-Type: multipart/package; boundary="_-------------1435019846753"
+Content-Length: 3159122
+Connection: keep-alive
+
+Content-Disposition: inline
+Content-Type: application/vnd.acme.product+json
+Content-Location: /products/16325906:001:99999
+ETag: W/"12345678"
+Content-Length: 93
+
+{"id":"16325906:001:99999","assets":[{"id":"930770","role":"spot"},{"id":"9424","role":"1"}]}
+--_-------------1435019846753
+Content-Disposition: inline
+Content-Type: application/vnd.acme.product+json
+Content-Location: /product/16326538:001:99999
+ETag: W/"12345678"
+Content-Length: 93
+
+{"id":"16326538:001:99999","assets":[{"id":"931862","role":"spot"},{"id":"9425","role":"1"}]}
+--_-------------1435019846753
+Content-Disposition: inline
+Content-Type: application/vnd.acme.product+json
+Content-Location: /product/16326590:001:99999
+ETag: W/"12345678"
+Content-Length: 93
+
+{"id":"16326590:001:99999","assets":[{"id":"914839","role":"spot"},{"id":"9408","role":"1"}]}
+--_-------------1435019846753
+Content-Disposition: inline
+Content-Type: application/vnd.acme.product+json
+Content-Location: /product/16327887:001:99999
+ETag: "12345678"
+Content-Length: 193
+
+{"id":"16327887:001:99999","assets":[{"id":"9517","role":"2"},{"id":"919130","role":"spot"},{"id":"9518","role":"1"},{"id":"9514","role":"5"},{"id":"9515","role":"3"},{"id":"9516","role":"4"}]}
+--_-------------1435019846753--
+</pre>
+<h1 id="rfc.section.5"><a href="#rfc.section.5">5.</a> <a href="#change-event-feeds" id="change-event-feeds">Change Event Feeds</a></h1>
+<p id="rfc.section.5.p.1">TBD</p>
+<p/>
+
+<ul>
+  <li>Define the term <samp>event target</samp>.</li>
+  <li>Define the term <samp>event part</samp>.</li>
+</ul>
+<h1 id="rfc.section.5.1"><a href="#rfc.section.5.1">5.1.</a> <a href="#the-event-type-http-header" id="the-event-type-http-header">The Event-Type HTTP Header</a></h1>
+<p id="rfc.section.5.1.p.1">This specification defines the <samp>Event-Type</samp> HTTP header to provide consumers of change event feeds with information about the nature of the event regarding the event target.</p>
+<p id="rfc.section.5.1.p.2">The <samp>Event-Type</samp> header takes as its value a key-value pair with the key indicating the event type family and the value indicating the event type name from the family.</p>
+<p id="rfc.section.5.1.p.3">Event feed publishers SHOULD only use events from a single family in a given feed.</p>
+<h1 id="rfc.section.5.2"><a href="#rfc.section.5.2">5.2.</a> <a href="#the-event-type-family-http-equiv" id="the-event-type-family-http-equiv">The Event Type family &lt;spanx style='verb'&gt;http-equiv&lt;/spanx&gt;</a></h1>
+<p id="rfc.section.5.2.p.1">This specification defines the event type family &#8216;http-equiv&#8217;. The allowed value set for this family is the set of unsafe HTTP methods, such as PUT, PATCH, DELETE, POST.</p>
+<p id="rfc.section.5.2.p.2">Consumers of <samp>http-equiv</samp>-typed events MUST process the event in the same way as they would process an HTTP request equivalent to the event part and HTTP method.</p>
+<pre>
+Event-Type: http-equiv=PUT
+</pre>
+<p id="rfc.section.5.2.p.3">TBD: Provide example of a single part and describe processing.</p>
+<h1 id="rfc.section.5.3"><a href="#rfc.section.5.3">5.3.</a> <a href="#feed-page-syntax-example" id="feed-page-syntax-example">Feed Page Syntax Example</a></h1>
+<pre>
+GET /products/changes/latest
+Accept: multipart/mixed
+  
+200 Ok
+Last-Modified: Sat, 11 Jan 2014 05:00:13 GMT
+ETag: "abc"
+Cache-Control: no-cache
+Link: &lt;/products/changes/2013/01/01/16&gt;; rel="prev"
+Content-Type: multipart/mixed; boundary="gc0p4Jq0M:2Yt08jU534c0p"
+ 
+--gc0p4Jq0M:2Yt08jU534c0p
+Link: &lt;/products/7628827272&gt;;rel="about"
+Event-Type: http-equiv=PUT
+Content-Type: application/vnd.gkh.product+json
+Last-Modified: Sat, 09 Jan 2014 15:02:23 GMT
+Content-ID: &lt;1234@products.example.org&gt;
+Content-Length: nnn
+  
+{"id":"..." , ... }
+--gc0p4Jq0M:2Yt08jU534c0p
+Link: &lt;/products/7623288273&gt;;rel="about"
+Event-Type: http-equiv=PATCH
+Content-Type: application/vnd.gkh.product-patch+xml
+Last-Modified: Sat, 09 Jan 2014 15:02:23 GMT
+Content-ID: &lt;567@products.example.org&gt;
+Content-Length: nnn
+ 
+&lt;product-patch&gt;
+  &lt;set-availability&gt;AVAILABLE&lt;/set-availability&gt;
+&lt;/product-patch&gt;
+--gc0p4Jq0M:2Yt08jU534c0p
+Link: &lt;/products/3338827272&gt;;rel="about"
+Event-Type: http-equiv=DELETE
+Last-Modified: Sat, 09 Jan 2014 15:02:23 GMT
+Content-ID: &lt;899919@products.example.org&gt;
+Content-Length: 0
+  
+--gc0p4Jq0M:2Yt08jU534c0p--
+</pre>
+<h1 id="rfc.section.6"><a href="#rfc.section.6">6.</a> <a href="#publishing" id="publishing">Publishing</a></h1>
+<h1 id="rfc.section.6.1"><a href="#rfc.section.6.1">6.1.</a> <a href="#publishing-snapshots" id="publishing-snapshots">Publishing Snapshots</a></h1>
+<p id="rfc.section.6.1.p.1">TBD</p>
+<h1 id="rfc.section.6.2"><a href="#rfc.section.6.2">6.2.</a> <a href="#publishing-feeds" id="publishing-feeds">Publishing Feeds</a></h1>
+<p id="rfc.section.6.2.p.1">TBD - explain &#8216;latest&#8217; - explain prev and pre-archive and switching to prev-archive (analog https://tools.ietf.org/html/rfc5005) - Make 5005 normative - </p>
+<h1 id="rfc.section.7"><a href="#rfc.section.7">7.</a> <a href="#consuming" id="consuming">Consuming</a></h1>
+<h1 id="rfc.section.7.1"><a href="#rfc.section.7.1">7.1.</a> <a href="#consuming-snapshots" id="consuming-snapshots">Consuming Snapshots</a></h1>
+<p id="rfc.section.7.1.p.1">TBD - Describe when and how to process the feed afterwards. See also below.</p>
+<h1 id="rfc.section.7.2"><a href="#rfc.section.7.2">7.2.</a> <a href="#consuming-feeds" id="consuming-feeds">Consuming Feeds</a></h1>
+<p id="rfc.section.7.2.p.1">TBD TBD</p>
+<pre>
+"Eine Snapshot-Generierung startet um T1 und endet um T2
+Beide Zeitpunkte stehen im Snapshot-index
+
+Client startet Snapshot-Konsum um T3 und beendet Snapshot Konsum um T4
+
+Mit T1 &lt; T2 &lt; T3 &lt; T4
+
+Client muss nun ab einschliesslich T1 den Feed lesen, um zu ermitteln,
+welche &#8216;items&#8217; sich w&#228;hrend der Snapshot-Erzeugung und Konsum ge&#228;ndert
+haben.
+
+Dabei liest der Client den Feed  ab einschliesslich T1 bis zu einem T5
+knapp gr&#246;&#223;er als T4 und merkt sich die ID des Events (Event ID ==
+"Content-ID&#8221; header des Event-Parts im Feed).
+
+F&#252;r alle diese items holt der Client per GET den aktuellen Stand ab (bei
+L&#246;sch-Events wird das item gel&#246;scht).
+
+Danach liest der Client den Feed weiter ab der gemerkten Content-ID.
+(Content-Ids sind per existierendem RFC eindeutig in einem
+Multipart-Dokument). Ab jetzt k&#246;nnen auch PATCH-Updates angewendet werden.
+
+Die Granularit&#228;t der Timestamps ist dabei egal und es muss eigentlich auch
+nichts mehr spezifiziert werden (h&#246;chstens, dass innerhalb des Feeds die
+Events jedes gegebenen items im Falle von PATCH-Sematik je item zeitlich
+sortiert sein m&#252;ssen)"
+</pre>
+<p id="rfc.section.7.2.p.2">If consumers that process snapshot and feed in parallel encounter events from the snapshot and the feed that apply to the same target resource and have the same timestamp they MUST apply the event from the feed, not the snapshot entity.</p>
+<h1 id="rfc.section.8"><a href="#rfc.section.8">8.</a> <a href="#security-considerations" id="security-considerations">Security Considerations</a></h1>
+<p id="rfc.section.8.p.1">TBD</p>
+<h1 id="rfc.references"><a href="#rfc.references">9.</a> References</h1>
+<h1 id="rfc.references.1"><a href="#rfc.references.1">9.1.</a> Normative References</h1>
+<table>
+  <tbody>
+    <tr>
+      <td class="reference">
+        <b id="RFC4229">[RFC4229]</b>
+      </td>
+      <td class="top"><a>Nottingham, M.</a> and <a>J. Mogul</a>, "<a href="http://tools.ietf.org/html/rfc4229">HTTP Header Field Registrations</a>", RFC 4229, December 2005.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="RFC5005">[RFC5005]</b>
+      </td>
+      <td class="top"><a>Nottingham, M.</a>, "<a href="http://tools.ietf.org/html/rfc5005">Feed Paging and Archiving</a>", RFC 5005, September 2007.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="RFC7231">[RFC7231]</b>
+      </td>
+      <td class="top"><a>Fielding, R.</a> and <a>J. Reschke</a>, "<a href="http://tools.ietf.org/html/rfc7231">Hypertext Transfer Protocol (HTTP/1.1): Semantics and Content</a>", RFC 7231, June 2014.</td>
+    </tr>
+  </tbody>
+</table>
+<h1 id="rfc.references.2"><a href="#rfc.references.2">9.2.</a> Informative References</h1>
+<table>
+  <tbody>
+    <tr>
+      <td class="reference">
+        <b id="apps-discuss">[apps-discuss]</b>
+      </td>
+      <td class="top"><a>IETF</a>, "<a href="https://www.ietf.org/mailman/listinfo/apps-discuss">IETF Apps-Discuss Mailing List</a>", n.d..</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="I-D.snell-http-prefer">[I-D.snell-http-prefer]</b>
+      </td>
+      <td class="top"><a>Snell, J.</a>, "<a href="http://tools.ietf.org/html/draft-snell-http-prefer-18">Prefer Header for HTTP</a>", Internet-Draft draft-snell-http-prefer-18, January 2013.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="ResourceSync">[ResourceSync]</b>
+      </td>
+      <td class="top"><a>TBD, .</a> and <a>TBD</a>, "<a href="http://www.openarchives.org/rs">ResourceSync Framework Specification</a>", n.d..</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="RFC5789">[RFC5789]</b>
+      </td>
+      <td class="top"><a>Dusseault, L.</a> and <a>J. Snell</a>, "<a href="http://tools.ietf.org/html/rfc5789">PATCH Method for HTTP</a>", RFC 5789, March 2010.</td>
+    </tr>
+  </tbody>
+</table>
+<h1 id="rfc.appendix.A"><a href="#rfc.appendix.A">Appendix A.</a> <a href="#acknowledgements" id="acknowledgements">Acknowledgements</a></h1>
+<p id="rfc.section.A.p.1">Thanks to TBD</p>
+<h1 id="rfc.appendix.B"><a href="#rfc.appendix.B">Appendix B.</a> <a href="#frequently-asked-questions" id="frequently-asked-questions">Frequently Asked Questions</a></h1>
+<p id="rfc.section.B.p.1">TBD</p>
+<h1 id="rfc.appendix.C"><a href="#rfc.appendix.C">Appendix C.</a> <a href="#open-issues-1" id="open-issues-1">Open Issues</a></h1>
+<p id="rfc.section.C.p.1">TBD</p>
+<h1 id="rfc.authors">
+  <a href="#rfc.authors">Authors' Addresses</a>
+</h1>
+<div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">Manuel Kiessling</span> 
+	  <span class="n hidden">
+		<span class="family-name">Kiessling</span>
+	  </span>
+	</span>
+	<span class="org vcardline">GALERIA Kaufhof</span>
+	<span class="adr">
+	  
+	  <span class="vcardline">
+		<span class="locality"></span> 
+		<span class="region"></span>
+		<span class="code"></span>
+	  </span>
+	  <span class="country-name vcardline"></span>
+	</span>
+	<span class="vcardline">EMail: <a href="mailto:manuel.kiessling@kaufhof.de">manuel.kiessling@kaufhof.de</a></span>
+
+<span class="vcardline">URI: <a href="http://www.galeria-kaufhof.de">http://www.galeria-kaufhof.de</a></span>
+
+  </address>
+</div><div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">Jan Algermissen</span> 
+	  <span class="n hidden">
+		<span class="family-name">Algermissen</span>
+	  </span>
+	</span>
+	<span class="org vcardline"></span>
+	<span class="adr">
+	  
+	  <span class="vcardline">
+		<span class="locality"></span> 
+		<span class="region"></span>
+		<span class="code"></span>
+	  </span>
+	  <span class="country-name vcardline"></span>
+	</span>
+	<span class="vcardline">EMail: <a href="mailto:algermissen@acm.org">algermissen@acm.org</a></span>
+
+<span class="vcardline">URI: <a href="http://www.jalg.net/">http://www.jalg.net/</a></span>
+
+  </address>
+</div>
+
+</body>
+</html>
