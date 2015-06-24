@@ -133,7 +133,7 @@ Snapshot Part Syntax Example
     Content-Disposition: inline
     Content-Type: application/vnd.acme.product+json
     Content-Location: /product/16326538:001:99999
-    ETag: W/"12345678"
+    ETag: W/"85392992223"
     Content-Length: 93
     
     {"id":"16326538:001:99999","assets":[{"id":"931862","role":"spot"},
@@ -142,7 +142,7 @@ Snapshot Part Syntax Example
     Content-Disposition: inline
     Content-Type: application/vnd.acme.product+json
     Content-Location: /product/16326590:001:99999
-    ETag: W/"12345678"
+    ETag: W/"5524442218"
     Content-Length: 93
     
     {"id":"16326590:001:99999","assets":[{"id":"914839","role":"spot"},
@@ -151,7 +151,7 @@ Snapshot Part Syntax Example
     Content-Disposition: inline
     Content-Type: application/vnd.acme.product+json
     Content-Location: /product/16327887:001:99999
-    ETag: "12345678"
+    ETag: "7782882823"
     Content-Length: 193
     
     {"id":"16327887:001:99999","assets":[{"id":"9517","role":"2"},
