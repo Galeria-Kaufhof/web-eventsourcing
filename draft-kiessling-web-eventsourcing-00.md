@@ -35,13 +35,17 @@ normative:
   
 informative:
   RFC5789:
-  I-D.snell-http-prefer:
   ResourceSync:
     target: http://www.openarchives.org/rs
     title: ResourceSync Framework Specification
     author:
-      - ins: TBD
-      - organization: TBD
+      - organization: NISO
+  WebPackaging:
+    target: http://www.w3.org/TR/web-packaging/
+    title: Packaging on the Web
+    author:
+      - ins: Jeni Tennison
+      - organization: W3C
   apps-discuss:
     target: https://www.ietf.org/mailman/listinfo/apps-discuss
     title: IETF Apps-Discuss Mailing List
@@ -64,20 +68,6 @@ Introduction
 
 TBD
 
-Open Issues
-===========
-
-- We could sacrifice Event-Type extensibility to make the Event-Type
-  header more easy to process and just define the value as any
-  unsafe HTTP method.
-
-- We should define a specialized multipart subtype to express the
-  requirement to include a Content-ID header in the parts. For
-  example multipart/events or multipart/http-requests.
-  (The early multipart/package type did something like that IIRC)
-
-- I do not like that the extensibility of the Event-Type header
-  does not include a reference mechanism to 'follow your nose'
 
 Notational Conventions
 ----------------------
@@ -127,7 +117,7 @@ Snapshot Part Syntax Example
     HTTP/1.1 200 OK
     Server: Tengine/2.1.0
     Date: Tue, 23 Jun 2015 07:15:47 GMT
-    Content-Type: multipart/package; boundary="_-------------1435019846753"
+    Content-Type: multipart/package; boundary="_--------1435019846753"
     Content-Length: 3159122
     Connection: keep-alive
     
@@ -137,32 +127,37 @@ Snapshot Part Syntax Example
     ETag: W/"12345678"
     Content-Length: 93
     
-    {"id":"16325906:001:99999","assets":[{"id":"930770","role":"spot"},{"id":"9424","role":"1"}]}
-    --_-------------1435019846753
+    {"id":"16325906:001:99999","assets":[{"id":"930770","role":"spot"},
+    {"id":"9424","role":"1"}]}
+    --_--------1435019846753
     Content-Disposition: inline
     Content-Type: application/vnd.acme.product+json
     Content-Location: /product/16326538:001:99999
     ETag: W/"12345678"
     Content-Length: 93
     
-    {"id":"16326538:001:99999","assets":[{"id":"931862","role":"spot"},{"id":"9425","role":"1"}]}
-    --_-------------1435019846753
+    {"id":"16326538:001:99999","assets":[{"id":"931862","role":"spot"},
+    {"id":"9425","role":"1"}]}
+    --_--------1435019846753
     Content-Disposition: inline
     Content-Type: application/vnd.acme.product+json
     Content-Location: /product/16326590:001:99999
     ETag: W/"12345678"
     Content-Length: 93
     
-    {"id":"16326590:001:99999","assets":[{"id":"914839","role":"spot"},{"id":"9408","role":"1"}]}
-    --_-------------1435019846753
+    {"id":"16326590:001:99999","assets":[{"id":"914839","role":"spot"},
+    {"id":"9408","role":"1"}]}
+    --_--------1435019846753
     Content-Disposition: inline
     Content-Type: application/vnd.acme.product+json
     Content-Location: /product/16327887:001:99999
     ETag: "12345678"
     Content-Length: 193
     
-    {"id":"16327887:001:99999","assets":[{"id":"9517","role":"2"},{"id":"919130","role":"spot"},{"id":"9518","role":"1"},{"id":"9514","role":"5"},{"id":"9515","role":"3"},{"id":"9516","role":"4"}]}
-    --_-------------1435019846753--
+    {"id":"16327887:001:99999","assets":[{"id":"9517","role":"2"},
+    {"id":"919130","role":"spot"},{"id":"9518","role":"1"},{"id":"9514",
+    "role":"5"},{"id":"9515","role":"3"},{"id":"9516","role":"4"}]}
+    --_--------1435019846753--
     
 
 Change Event Feeds
@@ -177,28 +172,29 @@ TBD
 The Event-Type HTTP Header
 --------------------------
 
-This specification defines the `Event-Type` HTTP header to provide consumers
-of change event feeds with information about the nature of the event regarding
-the event target.
+This specification defines the `Event-Type` HTTP header to provide
+consumers of change event feeds with information about the nature of
+the event regarding the event target.
 
-The `Event-Type` header takes as its value a key-value pair with the key
-indicating the event type family and the value indicating the event type
-name from the family.
+The `Event-Type` header takes as its value a key-value pair with the
+key indicating the event type family and the value indicating the event
+type name from the family.
 
 
-Event feed publishers SHOULD only use events from a single family in a given
-feed.
+Event feed publishers SHOULD only use events from a single family in a
+given feed.
 
 The Event Type family http-equiv
 --------------------------------
 
-This specification defines the event type family 'http-equiv'. The allowed
-value set for this family is the set of unsafe HTTP methods, such as PUT,
-PATCH, DELETE, POST.
+This specification defines the event type family 'http-equiv'. The
+allowed value set for this family is the set of unsafe HTTP methods,
+such as PUT, PATCH, DELETE, POST.
 
-Consumers of `http-equiv`-typed events MUST process the event in the same
-way as they would process an HTTP request equivalent to the given event part,
-HTTP method and a target resource identified by the about-Link.
+Consumers of `http-equiv`-typed events MUST process the event in the
+same way as they would process an HTTP request equivalent to the given
+event part, HTTP method and a target resource identified by the
+about-Link.
 
     Event-Type: http-equiv=PUT
 
@@ -273,12 +269,48 @@ TBD
 Consuming
 =========
 
+In order to maintain a consistent state of the sourced entities, it is
+necessary that consumers adhere to the following processing rules
+for snapshots and feeds.
+
 Consuming Snapshots
 -------------------
 
-TBD
-- Describe when and how to process the feed afterwards. See also below.
+Snaphsot generation takes a certain amount of time. The start and end
+timestamps are provided in the snapshot index. Consumers need to be
+aware that the snapshotted entities may change during the course of
+snapshot generation and that snaphsots are not constrained to include
+any changes that happen during their creation.
 
+In order to reach a consistent state after snapshot processing consumers
+SHOULD consume the event feed associated with the snapshot for the
+snapshot generation timeframe to update potentially changed entities.
+
+When doing so, consumers SHOULD apply the following rules:
+
+- Start processing the event feed at the timestamp larger or
+  equal than the snapshot start timestamp (explicitly including the start
+  timestamp is important in order to cover any changes that ocurred
+  within the granularity of the timestamp).
+- Consume the feed until the current timestamp and remember that
+  timestamp as the starting point for normal feed consumption
+- For each entity changed withing that timeframe replace the
+  entity with the current state of the producer. This can be done
+  by 
+  - Using the latest event content for a given entity that has
+    http-equiv=PUT semantics.
+  - Obtaining the current state of a given entity from the producer
+    using an HTTP GET request to the Content-Location associated with
+    the entity.
+  - If the snapshot contains an ETag for a given entity such GET
+    requests can be made conditional on that ETag.
+
+For the general rules of feed consumption see below.
+
+Snapshots should generally only be consumed for initialization
+or error recovery scenarios. Once an initial state has been
+obtained, consumers should process the associated change event feed
+to maintain an up-to-date state of the entities.
 
 Consuming Feeds
 ---------------
@@ -313,11 +345,10 @@ TBD
     sortiert sein müssen)"
 
 
-If consumers that process snapshot and feed in parallel encounter events from
-the snapshot and the feed that apply to the same target resource and have the
-same timestamp they MUST apply the event from the feed, not the snapshot
-entity.
-
+If consumers that process snapshot and feed in parallel encounter events
+from the snapshot and the feed that apply to the same target resource
+and have the same timestamp they MUST apply the event from the feed,
+not the snapshot entity.
 
 
 Security Considerations
@@ -341,4 +372,14 @@ TBD
 Open Issues
 ===========
 
-TBD
+- We could sacrifice Event-Type extensibility to make the Event-Type
+  header more easy to process and just define the value as any
+  unsafe HTTP method.
+
+- We should define a specialized multipart subtype to express the
+  requirement to include a Content-ID header in the parts. For
+  example multipart/events or multipart/http-requests.
+  (The early multipart/package type did something like that IIRC)
+
+- I do not like that the extensibility of the Event-Type header
+  does not include a reference mechanism to 'follow your nose'

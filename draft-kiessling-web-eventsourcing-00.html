@@ -375,26 +375,25 @@
 
   <link href="#rfc.toc" rel="Contents"/>
 <link href="#rfc.section.1" rel="Chapter" title="1 Introduction"/>
-<link href="#rfc.section.2" rel="Chapter" title="2 Open Issues"/>
-<link href="#rfc.section.2.1" rel="Chapter" title="2.1 Notational Conventions"/>
-<link href="#rfc.section.3" rel="Chapter" title="3 Event Sourcing on The Web"/>
-<link href="#rfc.section.4" rel="Chapter" title="4 Snapshots"/>
-<link href="#rfc.section.4.1" rel="Chapter" title="4.1 Snapshot Index Syntax Example"/>
-<link href="#rfc.section.4.2" rel="Chapter" title="4.2 Snapshot Part Syntax Example"/>
-<link href="#rfc.section.5" rel="Chapter" title="5 Change Event Feeds"/>
-<link href="#rfc.section.5.1" rel="Chapter" title="5.1 The Event-Type HTTP Header"/>
-<link href="#rfc.section.5.2" rel="Chapter" title="5.2 The Event Type family http-equiv"/>
-<link href="#rfc.section.5.3" rel="Chapter" title="5.3 Feed Page Syntax Example"/>
-<link href="#rfc.section.6" rel="Chapter" title="6 Publishing"/>
-<link href="#rfc.section.6.1" rel="Chapter" title="6.1 Publishing Snapshots"/>
-<link href="#rfc.section.6.2" rel="Chapter" title="6.2 Publishing Feeds"/>
-<link href="#rfc.section.7" rel="Chapter" title="7 Consuming"/>
-<link href="#rfc.section.7.1" rel="Chapter" title="7.1 Consuming Snapshots"/>
-<link href="#rfc.section.7.2" rel="Chapter" title="7.2 Consuming Feeds"/>
-<link href="#rfc.section.8" rel="Chapter" title="8 Security Considerations"/>
-<link href="#rfc.references" rel="Chapter" title="9 References"/>
-<link href="#rfc.references.1" rel="Chapter" title="9.1 Normative References"/>
-<link href="#rfc.references.2" rel="Chapter" title="9.2 Informative References"/>
+<link href="#rfc.section.1.1" rel="Chapter" title="1.1 Notational Conventions"/>
+<link href="#rfc.section.2" rel="Chapter" title="2 Event Sourcing on The Web"/>
+<link href="#rfc.section.3" rel="Chapter" title="3 Snapshots"/>
+<link href="#rfc.section.3.1" rel="Chapter" title="3.1 Snapshot Index Syntax Example"/>
+<link href="#rfc.section.3.2" rel="Chapter" title="3.2 Snapshot Part Syntax Example"/>
+<link href="#rfc.section.4" rel="Chapter" title="4 Change Event Feeds"/>
+<link href="#rfc.section.4.1" rel="Chapter" title="4.1 The Event-Type HTTP Header"/>
+<link href="#rfc.section.4.2" rel="Chapter" title="4.2 The Event Type family http-equiv"/>
+<link href="#rfc.section.4.3" rel="Chapter" title="4.3 Feed Page Syntax Example"/>
+<link href="#rfc.section.5" rel="Chapter" title="5 Publishing"/>
+<link href="#rfc.section.5.1" rel="Chapter" title="5.1 Publishing Snapshots"/>
+<link href="#rfc.section.5.2" rel="Chapter" title="5.2 Publishing Feeds"/>
+<link href="#rfc.section.6" rel="Chapter" title="6 Consuming"/>
+<link href="#rfc.section.6.1" rel="Chapter" title="6.1 Consuming Snapshots"/>
+<link href="#rfc.section.6.2" rel="Chapter" title="6.2 Consuming Feeds"/>
+<link href="#rfc.section.7" rel="Chapter" title="7 Security Considerations"/>
+<link href="#rfc.references" rel="Chapter" title="8 References"/>
+<link href="#rfc.references.1" rel="Chapter" title="8.1 Normative References"/>
+<link href="#rfc.references.2" rel="Chapter" title="8.2 Informative References"/>
 <link href="#rfc.appendix.A" rel="Chapter" title="A Acknowledgements"/>
 <link href="#rfc.appendix.B" rel="Chapter" title="B Frequently Asked Questions"/>
 <link href="#rfc.appendix.C" rel="Chapter" title="C Open Issues"/>
@@ -406,7 +405,7 @@
 
   <meta name="dct.creator" content="Kiessling, M. and J. Algermissen" />
   <meta name="dct.identifier" content="urn:ietf:id:draft-kiessling-web-eventsourcing-00" />
-  <meta name="dct.issued" scheme="ISO8601" content="2015-6-23" />
+  <meta name="dct.issued" scheme="ISO8601" content="2015-6-24" />
   <meta name="dct.abstract" content="This document describes HTTP based event sourcing." />
   <meta name="description" content="This document describes HTTP based event sourcing." />
 
@@ -430,8 +429,8 @@
   <td class="right">J. Algermissen</td>
 </tr>
 <tr>
-  <td class="left">Expires: December 25, 2015</td>
-  <td class="right">June 23, 2015</td>
+  <td class="left">Expires: December 26, 2015</td>
+  <td class="right">June 24, 2015</td>
 </tr>
 
     	
@@ -455,7 +454,7 @@
 <p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
 <p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at http://datatracker.ietf.org/drafts/current/.</p>
 <p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
-<p>This Internet-Draft will expire on December 25, 2015.</p>
+<p>This Internet-Draft will expire on December 26, 2015.</p>
 <h1 id="rfc.copyrightnotice">
   <a href="#rfc.copyrightnotice">Copyright Notice</a>
 </h1>
@@ -468,26 +467,25 @@
   <ul class="toc">
 
   	<li>1.   <a href="#rfc.section.1">Introduction</a></li>
-<li>2.   <a href="#rfc.section.2">Open Issues</a></li>
-<ul><li>2.1.   <a href="#rfc.section.2.1">Notational Conventions</a></li>
-</ul><li>3.   <a href="#rfc.section.3">Event Sourcing on The Web</a></li>
-<li>4.   <a href="#rfc.section.4">Snapshots</a></li>
-<ul><li>4.1.   <a href="#rfc.section.4.1">Snapshot Index Syntax Example</a></li>
-<li>4.2.   <a href="#rfc.section.4.2">Snapshot Part Syntax Example</a></li>
-</ul><li>5.   <a href="#rfc.section.5">Change Event Feeds</a></li>
-<ul><li>5.1.   <a href="#rfc.section.5.1">The Event-Type HTTP Header</a></li>
-<li>5.2.   <a href="#rfc.section.5.2">The Event Type family http-equiv</a></li>
-<li>5.3.   <a href="#rfc.section.5.3">Feed Page Syntax Example</a></li>
-</ul><li>6.   <a href="#rfc.section.6">Publishing</a></li>
-<ul><li>6.1.   <a href="#rfc.section.6.1">Publishing Snapshots</a></li>
-<li>6.2.   <a href="#rfc.section.6.2">Publishing Feeds</a></li>
-</ul><li>7.   <a href="#rfc.section.7">Consuming</a></li>
-<ul><li>7.1.   <a href="#rfc.section.7.1">Consuming Snapshots</a></li>
-<li>7.2.   <a href="#rfc.section.7.2">Consuming Feeds</a></li>
-</ul><li>8.   <a href="#rfc.section.8">Security Considerations</a></li>
-<li>9.   <a href="#rfc.references">References</a></li>
-<ul><li>9.1.   <a href="#rfc.references.1">Normative References</a></li>
-<li>9.2.   <a href="#rfc.references.2">Informative References</a></li>
+<ul><li>1.1.   <a href="#rfc.section.1.1">Notational Conventions</a></li>
+</ul><li>2.   <a href="#rfc.section.2">Event Sourcing on The Web</a></li>
+<li>3.   <a href="#rfc.section.3">Snapshots</a></li>
+<ul><li>3.1.   <a href="#rfc.section.3.1">Snapshot Index Syntax Example</a></li>
+<li>3.2.   <a href="#rfc.section.3.2">Snapshot Part Syntax Example</a></li>
+</ul><li>4.   <a href="#rfc.section.4">Change Event Feeds</a></li>
+<ul><li>4.1.   <a href="#rfc.section.4.1">The Event-Type HTTP Header</a></li>
+<li>4.2.   <a href="#rfc.section.4.2">The Event Type family http-equiv</a></li>
+<li>4.3.   <a href="#rfc.section.4.3">Feed Page Syntax Example</a></li>
+</ul><li>5.   <a href="#rfc.section.5">Publishing</a></li>
+<ul><li>5.1.   <a href="#rfc.section.5.1">Publishing Snapshots</a></li>
+<li>5.2.   <a href="#rfc.section.5.2">Publishing Feeds</a></li>
+</ul><li>6.   <a href="#rfc.section.6">Consuming</a></li>
+<ul><li>6.1.   <a href="#rfc.section.6.1">Consuming Snapshots</a></li>
+<li>6.2.   <a href="#rfc.section.6.2">Consuming Feeds</a></li>
+</ul><li>7.   <a href="#rfc.section.7">Security Considerations</a></li>
+<li>8.   <a href="#rfc.references">References</a></li>
+<ul><li>8.1.   <a href="#rfc.references.1">Normative References</a></li>
+<li>8.2.   <a href="#rfc.references.2">Informative References</a></li>
 </ul><li>Appendix A.   <a href="#rfc.appendix.A">Acknowledgements</a></li>
 <li>Appendix B.   <a href="#rfc.appendix.B">Frequently Asked Questions</a></li>
 <li>Appendix C.   <a href="#rfc.appendix.C">Open Issues</a></li>
@@ -498,21 +496,13 @@
 
   <h1 id="rfc.section.1"><a href="#rfc.section.1">1.</a> <a href="#introduction" id="introduction">Introduction</a></h1>
 <p id="rfc.section.1.p.1">TBD</p>
-<h1 id="rfc.section.2"><a href="#rfc.section.2">2.</a> <a href="#open-issues" id="open-issues">Open Issues</a></h1>
-<p/>
-
-<ul>
-  <li>We could sacrifice Event-Type extensibility to make the Event-Type header more easy to process and just define the value as any unsafe HTTP method.</li>
-  <li>We should define a specialized multipart subtype to express the requirement to include a Content-ID header in the parts. For example multipart/events or multipart/http-requests.  (The early multipart/package type did something like that IIRC)</li>
-  <li>I do not like that the extensibility of the Event-Type header does not include a reference mechanism to &#8216;follow your nose&#8217;</li>
-</ul>
-<h1 id="rfc.section.2.1"><a href="#rfc.section.2.1">2.1.</a> <a href="#notational-conventions" id="notational-conventions">Notational Conventions</a></h1>
-<p id="rfc.section.2.1.p.1">The key words &#8220;MUST&#8221;, &#8220;MUST NOT&#8221;, &#8220;REQUIRED&#8221;, &#8220;SHALL&#8221;, &#8220;SHALL NOT&#8221;, &#8220;SHOULD&#8221;, &#8220;SHOULD NOT&#8221;, &#8220;RECOMMENDED&#8221;, &#8220;MAY&#8221;, and &#8220;OPTIONAL&#8221; in this document are to be interpreted as described in </p>
-<h1 id="rfc.section.3"><a href="#rfc.section.3">3.</a> <a href="#event-sourcing-on-the-web" id="event-sourcing-on-the-web">Event Sourcing on The Web</a></h1>
+<h1 id="rfc.section.1.1"><a href="#rfc.section.1.1">1.1.</a> <a href="#notational-conventions" id="notational-conventions">Notational Conventions</a></h1>
+<p id="rfc.section.1.1.p.1">The key words &#8220;MUST&#8221;, &#8220;MUST NOT&#8221;, &#8220;REQUIRED&#8221;, &#8220;SHALL&#8221;, &#8220;SHALL NOT&#8221;, &#8220;SHOULD&#8221;, &#8220;SHOULD NOT&#8221;, &#8220;RECOMMENDED&#8221;, &#8220;MAY&#8221;, and &#8220;OPTIONAL&#8221; in this document are to be interpreted as described in </p>
+<h1 id="rfc.section.2"><a href="#rfc.section.2">2.</a> <a href="#event-sourcing-on-the-web" id="event-sourcing-on-the-web">Event Sourcing on The Web</a></h1>
+<p id="rfc.section.2.p.1">TBD</p>
+<h1 id="rfc.section.3"><a href="#rfc.section.3">3.</a> <a href="#snapshots" id="snapshots">Snapshots</a></h1>
 <p id="rfc.section.3.p.1">TBD</p>
-<h1 id="rfc.section.4"><a href="#rfc.section.4">4.</a> <a href="#snapshots" id="snapshots">Snapshots</a></h1>
-<p id="rfc.section.4.p.1">TBD</p>
-<h1 id="rfc.section.4.1"><a href="#rfc.section.4.1">4.1.</a> <a href="#snapshot-index-syntax-example" id="snapshot-index-syntax-example">Snapshot Index Syntax Example</a></h1>
+<h1 id="rfc.section.3.1"><a href="#rfc.section.3.1">3.1.</a> <a href="#snapshot-index-syntax-example" id="snapshot-index-syntax-example">Snapshot Index Syntax Example</a></h1>
 <pre>
 {
   "uris": [
@@ -529,12 +519,12 @@
   "id": "2015-06-23T00:36:45.885Z"
 }
 </pre>
-<h1 id="rfc.section.4.2"><a href="#rfc.section.4.2">4.2.</a> <a href="#snapshot-part-syntax-example" id="snapshot-part-syntax-example">Snapshot Part Syntax Example</a></h1>
+<h1 id="rfc.section.3.2"><a href="#rfc.section.3.2">3.2.</a> <a href="#snapshot-part-syntax-example" id="snapshot-part-syntax-example">Snapshot Part Syntax Example</a></h1>
 <pre>
 HTTP/1.1 200 OK
 Server: Tengine/2.1.0
 Date: Tue, 23 Jun 2015 07:15:47 GMT
-Content-Type: multipart/package; boundary="_-------------1435019846753"
+Content-Type: multipart/package; boundary="_--------1435019846753"
 Content-Length: 3159122
 Connection: keep-alive
 
@@ -544,53 +534,58 @@ Content-Location: /products/16325906:001:99999
 ETag: W/"12345678"
 Content-Length: 93
 
-{"id":"16325906:001:99999","assets":[{"id":"930770","role":"spot"},{"id":"9424","role":"1"}]}
---_-------------1435019846753
+{"id":"16325906:001:99999","assets":[{"id":"930770","role":"spot"},
+{"id":"9424","role":"1"}]}
+--_--------1435019846753
 Content-Disposition: inline
 Content-Type: application/vnd.acme.product+json
 Content-Location: /product/16326538:001:99999
 ETag: W/"12345678"
 Content-Length: 93
 
-{"id":"16326538:001:99999","assets":[{"id":"931862","role":"spot"},{"id":"9425","role":"1"}]}
---_-------------1435019846753
+{"id":"16326538:001:99999","assets":[{"id":"931862","role":"spot"},
+{"id":"9425","role":"1"}]}
+--_--------1435019846753
 Content-Disposition: inline
 Content-Type: application/vnd.acme.product+json
 Content-Location: /product/16326590:001:99999
 ETag: W/"12345678"
 Content-Length: 93
 
-{"id":"16326590:001:99999","assets":[{"id":"914839","role":"spot"},{"id":"9408","role":"1"}]}
---_-------------1435019846753
+{"id":"16326590:001:99999","assets":[{"id":"914839","role":"spot"},
+{"id":"9408","role":"1"}]}
+--_--------1435019846753
 Content-Disposition: inline
 Content-Type: application/vnd.acme.product+json
 Content-Location: /product/16327887:001:99999
 ETag: "12345678"
 Content-Length: 193
 
-{"id":"16327887:001:99999","assets":[{"id":"9517","role":"2"},{"id":"919130","role":"spot"},{"id":"9518","role":"1"},{"id":"9514","role":"5"},{"id":"9515","role":"3"},{"id":"9516","role":"4"}]}
---_-------------1435019846753--
+{"id":"16327887:001:99999","assets":[{"id":"9517","role":"2"},
+{"id":"919130","role":"spot"},{"id":"9518","role":"1"},{"id":"9514",
+"role":"5"},{"id":"9515","role":"3"},{"id":"9516","role":"4"}]}
+--_--------1435019846753--
 </pre>
-<h1 id="rfc.section.5"><a href="#rfc.section.5">5.</a> <a href="#change-event-feeds" id="change-event-feeds">Change Event Feeds</a></h1>
-<p id="rfc.section.5.p.1">TBD</p>
+<h1 id="rfc.section.4"><a href="#rfc.section.4">4.</a> <a href="#change-event-feeds" id="change-event-feeds">Change Event Feeds</a></h1>
+<p id="rfc.section.4.p.1">TBD</p>
 <p/>
 
 <ul>
   <li>Define the term <samp>event target</samp>.</li>
   <li>Define the term <samp>event part</samp>.</li>
 </ul>
-<h1 id="rfc.section.5.1"><a href="#rfc.section.5.1">5.1.</a> <a href="#the-event-type-http-header" id="the-event-type-http-header">The Event-Type HTTP Header</a></h1>
-<p id="rfc.section.5.1.p.1">This specification defines the <samp>Event-Type</samp> HTTP header to provide consumers of change event feeds with information about the nature of the event regarding the event target.</p>
-<p id="rfc.section.5.1.p.2">The <samp>Event-Type</samp> header takes as its value a key-value pair with the key indicating the event type family and the value indicating the event type name from the family.</p>
-<p id="rfc.section.5.1.p.3">Event feed publishers SHOULD only use events from a single family in a given feed.</p>
-<h1 id="rfc.section.5.2"><a href="#rfc.section.5.2">5.2.</a> <a href="#the-event-type-family-http-equiv" id="the-event-type-family-http-equiv">The Event Type family http-equiv</a></h1>
-<p id="rfc.section.5.2.p.1">This specification defines the event type family &#8216;http-equiv&#8217;. The allowed value set for this family is the set of unsafe HTTP methods, such as PUT, PATCH, DELETE, POST.</p>
-<p id="rfc.section.5.2.p.2">Consumers of <samp>http-equiv</samp>-typed events MUST process the event in the same way as they would process an HTTP request equivalent to the given event part, HTTP method and a target resource identified by the about-Link.</p>
+<h1 id="rfc.section.4.1"><a href="#rfc.section.4.1">4.1.</a> <a href="#the-event-type-http-header" id="the-event-type-http-header">The Event-Type HTTP Header</a></h1>
+<p id="rfc.section.4.1.p.1">This specification defines the <samp>Event-Type</samp> HTTP header to provide consumers of change event feeds with information about the nature of the event regarding the event target.</p>
+<p id="rfc.section.4.1.p.2">The <samp>Event-Type</samp> header takes as its value a key-value pair with the key indicating the event type family and the value indicating the event type name from the family.</p>
+<p id="rfc.section.4.1.p.3">Event feed publishers SHOULD only use events from a single family in a given feed.</p>
+<h1 id="rfc.section.4.2"><a href="#rfc.section.4.2">4.2.</a> <a href="#the-event-type-family-http-equiv" id="the-event-type-family-http-equiv">The Event Type family http-equiv</a></h1>
+<p id="rfc.section.4.2.p.1">This specification defines the event type family &#8216;http-equiv&#8217;. The allowed value set for this family is the set of unsafe HTTP methods, such as PUT, PATCH, DELETE, POST.</p>
+<p id="rfc.section.4.2.p.2">Consumers of <samp>http-equiv</samp>-typed events MUST process the event in the same way as they would process an HTTP request equivalent to the given event part, HTTP method and a target resource identified by the about-Link.</p>
 <pre>
 Event-Type: http-equiv=PUT
 </pre>
-<p id="rfc.section.5.2.p.3">TBD: Provide example of a single part and describe processing.</p>
-<h1 id="rfc.section.5.3"><a href="#rfc.section.5.3">5.3.</a> <a href="#feed-page-syntax-example" id="feed-page-syntax-example">Feed Page Syntax Example</a></h1>
+<p id="rfc.section.4.2.p.3">TBD: Provide example of a single part and describe processing.</p>
+<h1 id="rfc.section.4.3"><a href="#rfc.section.4.3">4.3.</a> <a href="#feed-page-syntax-example" id="feed-page-syntax-example">Feed Page Syntax Example</a></h1>
 <pre>
 GET /products/changes/latest
 Accept: multipart/mixed
@@ -631,16 +626,28 @@ Content-Length: 0
   
 --gc0p4Jq0M:2Yt08jU534c0p--
 </pre>
-<h1 id="rfc.section.6"><a href="#rfc.section.6">6.</a> <a href="#publishing" id="publishing">Publishing</a></h1>
-<h1 id="rfc.section.6.1"><a href="#rfc.section.6.1">6.1.</a> <a href="#publishing-snapshots" id="publishing-snapshots">Publishing Snapshots</a></h1>
-<p id="rfc.section.6.1.p.1">TBD</p>
-<h1 id="rfc.section.6.2"><a href="#rfc.section.6.2">6.2.</a> <a href="#publishing-feeds" id="publishing-feeds">Publishing Feeds</a></h1>
-<p id="rfc.section.6.2.p.1">TBD - explain &#8216;latest&#8217; - explain prev and pre-archive and switching to prev-archive (analog https://tools.ietf.org/html/rfc5005) - Make 5005 normative - </p>
-<h1 id="rfc.section.7"><a href="#rfc.section.7">7.</a> <a href="#consuming" id="consuming">Consuming</a></h1>
-<h1 id="rfc.section.7.1"><a href="#rfc.section.7.1">7.1.</a> <a href="#consuming-snapshots" id="consuming-snapshots">Consuming Snapshots</a></h1>
-<p id="rfc.section.7.1.p.1">TBD - Describe when and how to process the feed afterwards. See also below.</p>
-<h1 id="rfc.section.7.2"><a href="#rfc.section.7.2">7.2.</a> <a href="#consuming-feeds" id="consuming-feeds">Consuming Feeds</a></h1>
-<p id="rfc.section.7.2.p.1">TBD</p>
+<h1 id="rfc.section.5"><a href="#rfc.section.5">5.</a> <a href="#publishing" id="publishing">Publishing</a></h1>
+<h1 id="rfc.section.5.1"><a href="#rfc.section.5.1">5.1.</a> <a href="#publishing-snapshots" id="publishing-snapshots">Publishing Snapshots</a></h1>
+<p id="rfc.section.5.1.p.1">TBD</p>
+<h1 id="rfc.section.5.2"><a href="#rfc.section.5.2">5.2.</a> <a href="#publishing-feeds" id="publishing-feeds">Publishing Feeds</a></h1>
+<p id="rfc.section.5.2.p.1">TBD - explain &#8216;latest&#8217; - explain prev and pre-archive and switching to prev-archive (analog https://tools.ietf.org/html/rfc5005) - Make 5005 normative - </p>
+<h1 id="rfc.section.6"><a href="#rfc.section.6">6.</a> <a href="#consuming" id="consuming">Consuming</a></h1>
+<p id="rfc.section.6.p.1">In order to maintain a consistent state of the sourced entities, it is necessary that consumers adhere to the following processing rules for snapshots and feeds.</p>
+<h1 id="rfc.section.6.1"><a href="#rfc.section.6.1">6.1.</a> <a href="#consuming-snapshots" id="consuming-snapshots">Consuming Snapshots</a></h1>
+<p id="rfc.section.6.1.p.1">Snaphsot generation takes a certain amount of time. The start and end timestamps are provided in the snapshot index. Consumers need to be aware that the snapshotted entities may change during the course of snapshot generation and that snaphsots are not constrained to include any changes that happen during their creation.</p>
+<p id="rfc.section.6.1.p.2">In order to reach a consistent state after snapshot processing consumers SHOULD consume the event feed associated with the snapshot for the snapshot generation timeframe to update potentially changed entities.</p>
+<p id="rfc.section.6.1.p.3">When doing so, consumers SHOULD apply the following rules:</p>
+<p/>
+
+<ul>
+  <li>Start processing the event feed at the timestamp larger or equal than the snapshot start timestamp (explicitly including the start timestamp is important in order to cover any changes that ocurred within the granularity of the timestamp).</li>
+  <li>Consume the feed until the current timestamp and remember that timestamp as the starting point for normal feed consumption</li>
+  <li>For each entity changed withing that timeframe replace the entity with the current state of the producer. This can be done by <ul><li>Using the latest event content for a given entity that has http-equiv=PUT semantics.</li><li>Obtaining the current state of a given entity from the producer using an HTTP GET request to the Content-Location associated with the entity.</li><li>If the snapshot contains an ETag for a given entity such GET requests can be made conditional on that ETag.</li></ul></li>
+</ul>
+<p id="rfc.section.6.1.p.5">For the general rules of feed consumption see below.</p>
+<p id="rfc.section.6.1.p.6">Snapshots should generally only be consumed for initialization or error recovery scenarios. Once an initial state has been obtained, consumers should process the associated change event feed to maintain an up-to-date state of the entities.</p>
+<h1 id="rfc.section.6.2"><a href="#rfc.section.6.2">6.2.</a> <a href="#consuming-feeds" id="consuming-feeds">Consuming Feeds</a></h1>
+<p id="rfc.section.6.2.p.1">TBD</p>
 <pre>
 "Eine Snapshot-Generierung startet um T1 und endet um T2
 Beide Zeitpunkte stehen im Snapshot-index
@@ -669,11 +676,11 @@ nichts mehr spezifiziert werden (h&#246;chstens, dass innerhalb des Feeds die
 Events jedes gegebenen items im Falle von PATCH-Sematik je item zeitlich
 sortiert sein m&#252;ssen)"
 </pre>
-<p id="rfc.section.7.2.p.2">If consumers that process snapshot and feed in parallel encounter events from the snapshot and the feed that apply to the same target resource and have the same timestamp they MUST apply the event from the feed, not the snapshot entity.</p>
-<h1 id="rfc.section.8"><a href="#rfc.section.8">8.</a> <a href="#security-considerations" id="security-considerations">Security Considerations</a></h1>
-<p id="rfc.section.8.p.1">TBD</p>
-<h1 id="rfc.references"><a href="#rfc.references">9.</a> References</h1>
-<h1 id="rfc.references.1"><a href="#rfc.references.1">9.1.</a> Normative References</h1>
+<p id="rfc.section.6.2.p.2">If consumers that process snapshot and feed in parallel encounter events from the snapshot and the feed that apply to the same target resource and have the same timestamp they MUST apply the event from the feed, not the snapshot entity.</p>
+<h1 id="rfc.section.7"><a href="#rfc.section.7">7.</a> <a href="#security-considerations" id="security-considerations">Security Considerations</a></h1>
+<p id="rfc.section.7.p.1">TBD</p>
+<h1 id="rfc.references"><a href="#rfc.references">8.</a> References</h1>
+<h1 id="rfc.references.1"><a href="#rfc.references.1">8.1.</a> Normative References</h1>
 <table>
   <tbody>
     <tr>
@@ -696,7 +703,7 @@ sortiert sein m&#252;ssen)"
     </tr>
   </tbody>
 </table>
-<h1 id="rfc.references.2"><a href="#rfc.references.2">9.2.</a> Informative References</h1>
+<h1 id="rfc.references.2"><a href="#rfc.references.2">8.2.</a> Informative References</h1>
 <table>
   <tbody>
     <tr>
@@ -707,15 +714,9 @@ sortiert sein m&#252;ssen)"
     </tr>
     <tr>
       <td class="reference">
-        <b id="I-D.snell-http-prefer">[I-D.snell-http-prefer]</b>
-      </td>
-      <td class="top"><a>Snell, J.</a>, "<a href="http://tools.ietf.org/html/draft-snell-http-prefer-18">Prefer Header for HTTP</a>", Internet-Draft draft-snell-http-prefer-18, January 2013.</td>
-    </tr>
-    <tr>
-      <td class="reference">
         <b id="ResourceSync">[ResourceSync]</b>
       </td>
-      <td class="top"><a>TBD, .</a> and <a>TBD</a>, "<a href="http://www.openarchives.org/rs">ResourceSync Framework Specification</a>", n.d..</td>
+      <td class="top"><a>NISO</a>, "<a href="http://www.openarchives.org/rs">ResourceSync Framework Specification</a>", n.d..</td>
     </tr>
     <tr>
       <td class="reference">
@@ -723,14 +724,26 @@ sortiert sein m&#252;ssen)"
       </td>
       <td class="top"><a>Dusseault, L.</a> and <a>J. Snell</a>, "<a href="http://tools.ietf.org/html/rfc5789">PATCH Method for HTTP</a>", RFC 5789, March 2010.</td>
     </tr>
+    <tr>
+      <td class="reference">
+        <b id="WebPackaging">[WebPackaging]</b>
+      </td>
+      <td class="top"><a>Jeni Tennison, .</a> and <a>W3C</a>, "<a href="http://www.w3.org/TR/web-packaging/">Packaging on the Web</a>", n.d..</td>
+    </tr>
   </tbody>
 </table>
 <h1 id="rfc.appendix.A"><a href="#rfc.appendix.A">Appendix A.</a> <a href="#acknowledgements" id="acknowledgements">Acknowledgements</a></h1>
 <p id="rfc.section.A.p.1">Thanks to TBD</p>
 <h1 id="rfc.appendix.B"><a href="#rfc.appendix.B">Appendix B.</a> <a href="#frequently-asked-questions" id="frequently-asked-questions">Frequently Asked Questions</a></h1>
 <p id="rfc.section.B.p.1">TBD</p>
-<h1 id="rfc.appendix.C"><a href="#rfc.appendix.C">Appendix C.</a> <a href="#open-issues-1" id="open-issues-1">Open Issues</a></h1>
-<p id="rfc.section.C.p.1">TBD</p>
+<h1 id="rfc.appendix.C"><a href="#rfc.appendix.C">Appendix C.</a> <a href="#open-issues" id="open-issues">Open Issues</a></h1>
+<p/>
+
+<ul>
+  <li>We could sacrifice Event-Type extensibility to make the Event-Type header more easy to process and just define the value as any unsafe HTTP method.</li>
+  <li>We should define a specialized multipart subtype to express the requirement to include a Content-ID header in the parts. For example multipart/events or multipart/http-requests.  (The early multipart/package type did something like that IIRC)</li>
+  <li>I do not like that the extensibility of the Event-Type header does not include a reference mechanism to &#8216;follow your nose&#8217;</li>
+</ul>
 <h1 id="rfc.authors">
   <a href="#rfc.authors">Authors' Addresses</a>
 </h1>
