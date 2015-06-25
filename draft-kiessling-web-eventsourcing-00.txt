@@ -5,7 +5,7 @@
 Network Working Group                                       M. Kiessling
 Internet-Draft                                           GALERIA Kaufhof
 Intended status: Informational                            J. Algermissen
-Expires: December 26, 2015                                 June 24, 2015
+Expires: December 27, 2015                                 June 25, 2015
 
 
       Web Event Sourcing - A Web-based protocol for event sourcing
@@ -35,7 +35,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on December 26, 2015.
+   This Internet-Draft will expire on December 27, 2015.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Kiessling & Algermissen Expires December 26, 2015               [Page 1]
+Kiessling & Algermissen Expires December 27, 2015               [Page 1]
 
 Internet-Draft             Web Event Sourcing                  June 2015
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Kiessling & Algermissen Expires December 26, 2015               [Page 2]
+Kiessling & Algermissen Expires December 27, 2015               [Page 2]
 
 Internet-Draft             Web Event Sourcing                  June 2015
 
@@ -165,7 +165,7 @@ Internet-Draft             Web Event Sourcing                  June 2015
 
 
 
-Kiessling & Algermissen Expires December 26, 2015               [Page 3]
+Kiessling & Algermissen Expires December 27, 2015               [Page 3]
 
 Internet-Draft             Web Event Sourcing                  June 2015
 
@@ -189,7 +189,7 @@ Internet-Draft             Web Event Sourcing                  June 2015
    Content-Disposition: inline
    Content-Type: application/vnd.acme.product+json
    Content-Location: /product/16326538:001:99999
-   ETag: W/"12345678"
+   ETag: W/"85392992223"
    Content-Length: 93
 
    {"id":"16326538:001:99999","assets":[{"id":"931862","role":"spot"},
@@ -198,7 +198,7 @@ Internet-Draft             Web Event Sourcing                  June 2015
    Content-Disposition: inline
    Content-Type: application/vnd.acme.product+json
    Content-Location: /product/16326590:001:99999
-   ETag: W/"12345678"
+   ETag: W/"5524442218"
    Content-Length: 93
 
    {"id":"16326590:001:99999","assets":[{"id":"914839","role":"spot"},
@@ -207,7 +207,7 @@ Internet-Draft             Web Event Sourcing                  June 2015
    Content-Disposition: inline
    Content-Type: application/vnd.acme.product+json
    Content-Location: /product/16327887:001:99999
-   ETag: "12345678"
+   ETag: "7782882823"
    Content-Length: 193
 
    {"id":"16327887:001:99999","assets":[{"id":"9517","role":"2"},
@@ -221,7 +221,7 @@ Internet-Draft             Web Event Sourcing                  June 2015
 
 
 
-Kiessling & Algermissen Expires December 26, 2015               [Page 4]
+Kiessling & Algermissen Expires December 27, 2015               [Page 4]
 
 Internet-Draft             Web Event Sourcing                  June 2015
 
@@ -277,7 +277,7 @@ Internet-Draft             Web Event Sourcing                  June 2015
 
 
 
-Kiessling & Algermissen Expires December 26, 2015               [Page 5]
+Kiessling & Algermissen Expires December 27, 2015               [Page 5]
 
 Internet-Draft             Web Event Sourcing                  June 2015
 
@@ -333,7 +333,7 @@ Internet-Draft             Web Event Sourcing                  June 2015
 
 
 
-Kiessling & Algermissen Expires December 26, 2015               [Page 6]
+Kiessling & Algermissen Expires December 27, 2015               [Page 6]
 
 Internet-Draft             Web Event Sourcing                  June 2015
 
@@ -389,7 +389,7 @@ Internet-Draft             Web Event Sourcing                  June 2015
 
 
 
-Kiessling & Algermissen Expires December 26, 2015               [Page 7]
+Kiessling & Algermissen Expires December 27, 2015               [Page 7]
 
 Internet-Draft             Web Event Sourcing                  June 2015
 
@@ -445,7 +445,7 @@ sortiert sein muessen)"
 
 
 
-Kiessling & Algermissen Expires December 26, 2015               [Page 8]
+Kiessling & Algermissen Expires December 27, 2015               [Page 8]
 
 Internet-Draft             Web Event Sourcing                  June 2015
 
@@ -501,13 +501,15 @@ Appendix C.  Open Issues
 
 
 
-Kiessling & Algermissen Expires December 26, 2015               [Page 9]
+Kiessling & Algermissen Expires December 27, 2015               [Page 9]
 
 Internet-Draft             Web Event Sourcing                  June 2015
 
 
    o  I do not like that the extensibility of the Event-Type header does
-      not include a reference mechanism to 'follow your nose'
+      not include a reference mechanism to 'follow your nose' (Update:
+      complex event types (e.g. moves) seem to be useful to some people,
+      hence we should keep the extensibility)
 
 Authors' Addresses
 
@@ -555,6 +557,4 @@ Authors' Addresses
 
 
 
-
-
-Kiessling & Algermissen Expires December 26, 2015              [Page 10]
+Kiessling & Algermissen Expires December 27, 2015              [Page 10]

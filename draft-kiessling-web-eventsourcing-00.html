@@ -405,7 +405,7 @@
 
   <meta name="dct.creator" content="Kiessling, M. and J. Algermissen" />
   <meta name="dct.identifier" content="urn:ietf:id:draft-kiessling-web-eventsourcing-00" />
-  <meta name="dct.issued" scheme="ISO8601" content="2015-6-24" />
+  <meta name="dct.issued" scheme="ISO8601" content="2015-6-25" />
   <meta name="dct.abstract" content="This document describes HTTP based event sourcing." />
   <meta name="description" content="This document describes HTTP based event sourcing." />
 
@@ -429,8 +429,8 @@
   <td class="right">J. Algermissen</td>
 </tr>
 <tr>
-  <td class="left">Expires: December 26, 2015</td>
-  <td class="right">June 24, 2015</td>
+  <td class="left">Expires: December 27, 2015</td>
+  <td class="right">June 25, 2015</td>
 </tr>
 
     	
@@ -454,7 +454,7 @@
 <p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
 <p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at http://datatracker.ietf.org/drafts/current/.</p>
 <p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
-<p>This Internet-Draft will expire on December 26, 2015.</p>
+<p>This Internet-Draft will expire on December 27, 2015.</p>
 <h1 id="rfc.copyrightnotice">
   <a href="#rfc.copyrightnotice">Copyright Notice</a>
 </h1>
@@ -540,7 +540,7 @@ Content-Length: 93
 Content-Disposition: inline
 Content-Type: application/vnd.acme.product+json
 Content-Location: /product/16326538:001:99999
-ETag: W/"12345678"
+ETag: W/"85392992223"
 Content-Length: 93
 
 {"id":"16326538:001:99999","assets":[{"id":"931862","role":"spot"},
@@ -549,7 +549,7 @@ Content-Length: 93
 Content-Disposition: inline
 Content-Type: application/vnd.acme.product+json
 Content-Location: /product/16326590:001:99999
-ETag: W/"12345678"
+ETag: W/"5524442218"
 Content-Length: 93
 
 {"id":"16326590:001:99999","assets":[{"id":"914839","role":"spot"},
@@ -558,7 +558,7 @@ Content-Length: 93
 Content-Disposition: inline
 Content-Type: application/vnd.acme.product+json
 Content-Location: /product/16327887:001:99999
-ETag: "12345678"
+ETag: "7782882823"
 Content-Length: 193
 
 {"id":"16327887:001:99999","assets":[{"id":"9517","role":"2"},
@@ -742,7 +742,7 @@ sortiert sein m&#252;ssen)"
 <ul>
   <li>We could sacrifice Event-Type extensibility to make the Event-Type header more easy to process and just define the value as any unsafe HTTP method.</li>
   <li>We should define a specialized multipart subtype to express the requirement to include a Content-ID header in the parts. For example multipart/events or multipart/http-requests.  (The early multipart/package type did something like that IIRC)</li>
-  <li>I do not like that the extensibility of the Event-Type header does not include a reference mechanism to &#8216;follow your nose&#8217;</li>
+  <li>I do not like that the extensibility of the Event-Type header does not include a reference mechanism to &#8216;follow your nose&#8217; (Update: complex event types (e.g. moves) seem to be useful to some people, hence we should keep the extensibility) </li>
 </ul>
 <h1 id="rfc.authors">
   <a href="#rfc.authors">Authors' Addresses</a>

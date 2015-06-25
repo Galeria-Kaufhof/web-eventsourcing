@@ -383,3 +383,5 @@ Open Issues
 
 - I do not like that the extensibility of the Event-Type header
   does not include a reference mechanism to 'follow your nose'
+  (Update: complex event types (e.g. moves) seem to be useful
+  to some people, hence we should keep the extensibility) 
