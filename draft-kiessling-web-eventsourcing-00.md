@@ -201,7 +201,7 @@ about-Link.
 
 TBD: Provide example of a single part and describe processing.
 
-
+TBD: Define that the order of the events in a feed is fixed and may not change.
 
 Feed Page Syntax Example
 ------------------------
