@@ -219,6 +219,7 @@ Feed Page Syntax Example
  
     --gc0p4Jq0M:2Yt08jU534c0p
     Link: </products/7628827272>;rel="about"
+    Link: <gkh:products:7628827272>;rel="about"
     Event-Type: http-equiv=PUT
     Content-Type: application/vnd.gkh.product+json
     Last-Modified: Sat, 09 Jan 2014 15:02:23 GMT
@@ -228,6 +229,7 @@ Feed Page Syntax Example
     {"id":"..." , ... }
     --gc0p4Jq0M:2Yt08jU534c0p
     Link: </products/7623288273>;rel="about"
+    Link: <gkh:products:7628827273>;rel="about"
     Event-Type: http-equiv=PATCH
     Content-Type: application/vnd.gkh.product-patch+xml
     Last-Modified: Sat, 09 Jan 2014 15:02:23 GMT
@@ -239,6 +241,7 @@ Feed Page Syntax Example
     </product-patch>
     --gc0p4Jq0M:2Yt08jU534c0p
     Link: </products/3338827272>;rel="about"
+    Link: <gkh:products:3338827272>;rel="about"
     Event-Type: http-equiv=DELETE
     Last-Modified: Sat, 09 Jan 2014 15:02:23 GMT
     Content-ID: <899919@products.example.org>
@@ -350,6 +353,46 @@ from the snapshot and the feed that apply to the same target resource
 and have the same timestamp they MUST apply the event from the feed,
 not the snapshot entity.
 
+Range Requests on Event Feeds
+=============================
+
+TBD
+
+- Define range request range 'contentid' to simplify lookup
+  of feed pages by ID
+
+- For example, here we say: "Give me the feed, starting from
+  the page where the provided content ID is located in
+
+    GET /products/changes/latest
+    Range: contentid=<567@products.example.org>-
+
+
+    206 Partial Content
+    ....
+
+- Similarly we can select several page ranages, if so desired:
+
+    GET /products/changes/latest
+    Range: contentid=<567@products.example.org>-<877@products.example.org>,<999@products.example.org>-
+
+
+    206 Partial Content
+    ....
+
+- Consider using not /latest but the feed resource itself as a target for such requests:
+
+
+    GET /products/changes
+    Range: contentid=<567@products.example.org>-
+
+
+    206 Partial Content
+    Link: </products/changes/latest>; rel="last"   (last is from RFC5005)
+    ....
+
+
+
 
 Security Considerations
 =======================
@@ -379,6 +422,9 @@ Open Issues
 - We should define a specialized multipart subtype to express the
   requirement to include a Content-ID header in the parts. For
   example multipart/events or multipart/http-requests.
+  This media type should probably also mandate that the parts
+  are sorted in descending time order.
+
   (The early multipart/package type did something like that IIRC)
 
 - I do not like that the extensibility of the Event-Type header
