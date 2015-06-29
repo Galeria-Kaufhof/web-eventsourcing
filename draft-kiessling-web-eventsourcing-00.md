@@ -163,10 +163,27 @@ Snapshot Part Syntax Example
 Change Event Feeds
 ==================
 
-TBD
+A change event feed, or simply event feed, informs clients about changes
+to the items they already know, or about the addition of new items that
+were not previously known.
 
-- Define the term `event target`.
-- Define the term `event part`.
+A feed is a collection of 1 or more multipart documents that together
+form one logical feed. Each part of the multipart document describes one
+event (called `event entry` from now on).
+
+
+The Event Target Link Relation
+------------------------------
+
+Each event entry in the feed MUST reference an existing resource on the
+server and describe the nature of the event that happened regarding that
+resource.
+
+This referenced resource is the `event target`.
+
+Event targets MUST be referenced via a link relation using the `Link` HTTP
+header, with a URI pointing to the targeted resource, and the `rel`
+attribute of the relation set to `"about"`.
 
 
 The Event-Type HTTP Header
@@ -174,7 +191,8 @@ The Event-Type HTTP Header
 
 This specification defines the `Event-Type` HTTP header to provide
 consumers of change event feeds with information about the nature of
-the event regarding the event target.
+the event regarding the event target. The nature of the event MUST be
+declared for each event entry.
 
 The `Event-Type` header takes as its value a key-value pair with the
 key indicating the event type family and the value indicating the event
@@ -192,11 +210,10 @@ allowed value set for this family is the set of unsafe HTTP methods,
 such as PUT, PATCH, DELETE, POST.
 
 Consumers of `http-equiv`-typed events MUST process the event in the
-same way as they would process an HTTP request equivalent to the given
-event part, HTTP method and a target resource identified by the
-about-Link.
+same way as they would process an HTTP request to the event target using
+the HTTP verb from the http-equiv set defined via the event type header.
 
-For example, the following event feed entry (or "event-part"):
+For example, the following event feed entry:
 
     Link: </products/7628827272>;rel="about"
     Event-Type: http-equiv=PUT
@@ -206,8 +223,7 @@ For example, the following event feed entry (or "event-part"):
 
 MUST be treated by the consumer in the same way the consumer would treat
 a `PUT` request to the `/products/7628827272` resource with a request
-body of `{"id":"1234", "name":"foo"}` and the entity-related headers of
-the event-part.
+body of `{"id":"1234", "name":"foo"}`.
 
 
 The Content-ID header
@@ -233,11 +249,11 @@ Example: A feed that consists of 3 entries at t1, and grows by the entry
 
 
 The ETag header
----------------------
+---------------
 
 In order to allow for efficient polling, feed publishers SHOULD make the feed
 available conditionally via the `If-None-Match` request header, and SHOULD
-therefore provide a hard `ETag` for the feed that changes if the feed content
+therefore provide an `ETag` for the feed that changes if the feed content
 changes.
 
 
