@@ -3,9 +3,9 @@
 
 
 Network Working Group                                       M. Kiessling
-Internet-Draft                                           GALERIA Kaufhof
+Internet-Draft                                      GALERIA Kaufhof GmbH
 Intended status: Informational                            J. Algermissen
-Expires: December 28, 2015                                 June 26, 2015
+Expires: December 31, 2015                                 June 29, 2015
 
 
       Web Event Sourcing - A Web-based protocol for event sourcing
@@ -35,7 +35,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on December 28, 2015.
+   This Internet-Draft will expire on December 31, 2015.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Kiessling & Algermissen Expires December 28, 2015               [Page 1]
+Kiessling & Algermissen Expires December 31, 2015               [Page 1]
 
 Internet-Draft             Web Event Sourcing                  June 2015
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Kiessling & Algermissen Expires December 28, 2015               [Page 2]
+Kiessling & Algermissen Expires December 31, 2015               [Page 2]
 
 Internet-Draft             Web Event Sourcing                  June 2015
 
@@ -165,7 +165,7 @@ Internet-Draft             Web Event Sourcing                  June 2015
 
 
 
-Kiessling & Algermissen Expires December 28, 2015               [Page 3]
+Kiessling & Algermissen Expires December 31, 2015               [Page 3]
 
 Internet-Draft             Web Event Sourcing                  June 2015
 
@@ -221,7 +221,7 @@ Internet-Draft             Web Event Sourcing                  June 2015
 
 
 
-Kiessling & Algermissen Expires December 28, 2015               [Page 4]
+Kiessling & Algermissen Expires December 31, 2015               [Page 4]
 
 Internet-Draft             Web Event Sourcing                  June 2015
 
@@ -277,7 +277,7 @@ Internet-Draft             Web Event Sourcing                  June 2015
 
 
 
-Kiessling & Algermissen Expires December 28, 2015               [Page 5]
+Kiessling & Algermissen Expires December 31, 2015               [Page 5]
 
 Internet-Draft             Web Event Sourcing                  June 2015
 
@@ -333,7 +333,7 @@ Internet-Draft             Web Event Sourcing                  June 2015
 
 
 
-Kiessling & Algermissen Expires December 28, 2015               [Page 6]
+Kiessling & Algermissen Expires December 31, 2015               [Page 6]
 
 Internet-Draft             Web Event Sourcing                  June 2015
 
@@ -389,7 +389,7 @@ Internet-Draft             Web Event Sourcing                  June 2015
 
 
 
-Kiessling & Algermissen Expires December 28, 2015               [Page 7]
+Kiessling & Algermissen Expires December 31, 2015               [Page 7]
 
 Internet-Draft             Web Event Sourcing                  June 2015
 
@@ -423,17 +423,18 @@ Dabei liest der Client den Feed  ab einschliesslich T1 bis zu einem T5
 knapp groesser als T4 und merkt sich die ID des Events (Event ID ==
 "Content-ID" header des Event-Parts im Feed).
 
-Fuer alle diese items holt der Client per GET den aktuellen Stand ab (bei
-Loesch-Events wird das item geloescht).
+Fuer alle diese items holt der Client per GET den aktuellen Stand ab
+(bei Loesch-Events wird das item geloescht).
 
 Danach liest der Client den Feed weiter ab der gemerkten Content-ID.
 (Content-Ids sind per existierendem RFC eindeutig in einem
-Multipart-Dokument). Ab jetzt koennen auch PATCH-Updates angewendet werden.
+Multipart-Dokument). Ab jetzt koennen auch PATCH-Updates angewendet
+werden.
 
-Die Granularitaet der Timestamps ist dabei egal und es muss eigentlich auch
-nichts mehr spezifiziert werden (hoechstens, dass innerhalb des Feeds die
-Events jedes gegebenen items im Falle von PATCH-Sematik je item zeitlich
-sortiert sein muessen)"
+Die Granularitaet der Timestamps ist dabei egal und es muss eigentlich
+auch nichts mehr spezifiziert werden (hoechstens, dass innerhalb des
+Feeds die Events jedes gegebenen items im Falle von PATCH-Sematik je
+item zeitlich sortiert sein muessen)"
 
    If consumers that process snapshot and feed in parallel encounter
    events from the snapshot and the feed that apply to the same target
@@ -444,8 +445,7 @@ sortiert sein muessen)"
 
 
 
-
-Kiessling & Algermissen Expires December 28, 2015               [Page 8]
+Kiessling & Algermissen Expires December 31, 2015               [Page 8]
 
 Internet-Draft             Web Event Sourcing                  June 2015
 
@@ -501,7 +501,7 @@ Internet-Draft             Web Event Sourcing                  June 2015
 
 
 
-Kiessling & Algermissen Expires December 28, 2015               [Page 9]
+Kiessling & Algermissen Expires December 31, 2015               [Page 9]
 
 Internet-Draft             Web Event Sourcing                  June 2015
 
@@ -557,7 +557,7 @@ Appendix C.  Open Issues
 
 
 
-Kiessling & Algermissen Expires December 28, 2015              [Page 10]
+Kiessling & Algermissen Expires December 31, 2015              [Page 10]
 
 Internet-Draft             Web Event Sourcing                  June 2015
 
@@ -570,7 +570,7 @@ Internet-Draft             Web Event Sourcing                  June 2015
 Authors' Addresses
 
    Manuel Kiessling
-   GALERIA Kaufhof
+   GALERIA Kaufhof GmbH
 
    Email: manuel.kiessling@kaufhof.de
    URI:   http://www.galeria-kaufhof.de
@@ -579,7 +579,7 @@ Authors' Addresses
    Jan Algermissen
 
    Email: algermissen@acm.org
-   URI:   http://www.jalg.net/
+   URI:   http://www.jalg.net
 
 
 
@@ -613,4 +613,4 @@ Authors' Addresses
 
 
 
-Kiessling & Algermissen Expires December 28, 2015              [Page 11]
+Kiessling & Algermissen Expires December 31, 2015              [Page 11]

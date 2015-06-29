@@ -406,7 +406,7 @@
 
   <meta name="dct.creator" content="Kiessling, M. and J. Algermissen" />
   <meta name="dct.identifier" content="urn:ietf:id:draft-kiessling-web-eventsourcing-00" />
-  <meta name="dct.issued" scheme="ISO8601" content="2015-6-26" />
+  <meta name="dct.issued" scheme="ISO8601" content="2015-6-29" />
   <meta name="dct.abstract" content="This document describes HTTP based event sourcing." />
   <meta name="description" content="This document describes HTTP based event sourcing." />
 
@@ -423,15 +423,15 @@
 </tr>
 <tr>
   <td class="left">Internet-Draft</td>
-  <td class="right">GALERIA Kaufhof</td>
+  <td class="right">GALERIA Kaufhof GmbH</td>
 </tr>
 <tr>
   <td class="left">Intended status: Informational</td>
   <td class="right">J. Algermissen</td>
 </tr>
 <tr>
-  <td class="left">Expires: December 28, 2015</td>
-  <td class="right">June 26, 2015</td>
+  <td class="left">Expires: December 31, 2015</td>
+  <td class="right">June 29, 2015</td>
 </tr>
 
     	
@@ -455,7 +455,7 @@
 <p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
 <p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at http://datatracker.ietf.org/drafts/current/.</p>
 <p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
-<p>This Internet-Draft will expire on December 28, 2015.</p>
+<p>This Internet-Draft will expire on December 31, 2015.</p>
 <h1 id="rfc.copyrightnotice">
   <a href="#rfc.copyrightnotice">Copyright Notice</a>
 </h1>
@@ -499,7 +499,7 @@
   <h1 id="rfc.section.1"><a href="#rfc.section.1">1.</a> <a href="#introduction" id="introduction">Introduction</a></h1>
 <p id="rfc.section.1.p.1">TBD</p>
 <h1 id="rfc.section.1.1"><a href="#rfc.section.1.1">1.1.</a> <a href="#notational-conventions" id="notational-conventions">Notational Conventions</a></h1>
-<p id="rfc.section.1.1.p.1">The key words &#8220;MUST&#8221;, &#8220;MUST NOT&#8221;, &#8220;REQUIRED&#8221;, &#8220;SHALL&#8221;, &#8220;SHALL NOT&#8221;, &#8220;SHOULD&#8221;, &#8220;SHOULD NOT&#8221;, &#8220;RECOMMENDED&#8221;, &#8220;MAY&#8221;, and &#8220;OPTIONAL&#8221; in this document are to be interpreted as described in </p>
+<p id="rfc.section.1.1.p.1">The key words &#8220;MUST&#8221;, &#8220;MUST NOT&#8221;, &#8220;REQUIRED&#8221;, &#8220;SHALL&#8221;, &#8220;SHALL NOT&#8221;, &#8220;SHOULD&#8221;, &#8220;SHOULD NOT&#8221;, &#8220;RECOMMENDED&#8221;, &#8220;MAY&#8221;, and &#8220;OPTIONAL&#8221; in this document are to be interpreted as described in</p>
 <h1 id="rfc.section.2"><a href="#rfc.section.2">2.</a> <a href="#event-sourcing-on-the-web" id="event-sourcing-on-the-web">Event Sourcing on The Web</a></h1>
 <p id="rfc.section.2.p.1">TBD</p>
 <h1 id="rfc.section.3"><a href="#rfc.section.3">3.</a> <a href="#snapshots" id="snapshots">Snapshots</a></h1>
@@ -636,7 +636,7 @@ Content-Length: 0
 <h1 id="rfc.section.5.1"><a href="#rfc.section.5.1">5.1.</a> <a href="#publishing-snapshots" id="publishing-snapshots">Publishing Snapshots</a></h1>
 <p id="rfc.section.5.1.p.1">TBD</p>
 <h1 id="rfc.section.5.2"><a href="#rfc.section.5.2">5.2.</a> <a href="#publishing-feeds" id="publishing-feeds">Publishing Feeds</a></h1>
-<p id="rfc.section.5.2.p.1">TBD - explain &#8216;latest&#8217; - explain prev and pre-archive and switching to prev-archive (analog https://tools.ietf.org/html/rfc5005) - Make 5005 normative - </p>
+<p id="rfc.section.5.2.p.1">TBD - explain &#8216;latest&#8217; - explain prev and pre-archive and switching to prev-archive (analog https://tools.ietf.org/html/rfc5005) - Make 5005 normative -</p>
 <h1 id="rfc.section.6"><a href="#rfc.section.6">6.</a> <a href="#consuming" id="consuming">Consuming</a></h1>
 <p id="rfc.section.6.p.1">In order to maintain a consistent state of the sourced entities, it is necessary that consumers adhere to the following processing rules for snapshots and feeds.</p>
 <h1 id="rfc.section.6.1"><a href="#rfc.section.6.1">6.1.</a> <a href="#consuming-snapshots" id="consuming-snapshots">Consuming Snapshots</a></h1>
@@ -670,17 +670,18 @@ Dabei liest der Client den Feed  ab einschliesslich T1 bis zu einem T5
 knapp gr&#246;&#223;er als T4 und merkt sich die ID des Events (Event ID ==
 "Content-ID&#8221; header des Event-Parts im Feed).
 
-F&#252;r alle diese items holt der Client per GET den aktuellen Stand ab (bei
-L&#246;sch-Events wird das item gel&#246;scht).
+F&#252;r alle diese items holt der Client per GET den aktuellen Stand ab
+(bei L&#246;sch-Events wird das item gel&#246;scht).
 
 Danach liest der Client den Feed weiter ab der gemerkten Content-ID.
 (Content-Ids sind per existierendem RFC eindeutig in einem
-Multipart-Dokument). Ab jetzt k&#246;nnen auch PATCH-Updates angewendet werden.
+Multipart-Dokument). Ab jetzt k&#246;nnen auch PATCH-Updates angewendet
+werden.
 
-Die Granularit&#228;t der Timestamps ist dabei egal und es muss eigentlich auch
-nichts mehr spezifiziert werden (h&#246;chstens, dass innerhalb des Feeds die
-Events jedes gegebenen items im Falle von PATCH-Sematik je item zeitlich
-sortiert sein m&#252;ssen)"
+Die Granularit&#228;t der Timestamps ist dabei egal und es muss eigentlich
+auch nichts mehr spezifiziert werden (h&#246;chstens, dass innerhalb des
+Feeds die Events jedes gegebenen items im Falle von PATCH-Sematik je
+item zeitlich sortiert sein m&#252;ssen)"
 </pre>
 <p id="rfc.section.6.2.p.2">If consumers that process snapshot and feed in parallel encounter events from the snapshot and the feed that apply to the same target resource and have the same timestamp they MUST apply the event from the feed, not the snapshot entity.</p>
 <h1 id="rfc.section.7"><a href="#rfc.section.7">7.</a> <a href="#range-requests-on-event-feeds" id="range-requests-on-event-feeds">Range Requests on Event Feeds</a></h1>
@@ -758,7 +759,7 @@ sortiert sein m&#252;ssen)"
 <ul>
   <li>We could sacrifice Event-Type extensibility to make the Event-Type header more easy to process and just define the value as any unsafe HTTP method.</li>
   <li>We should define a specialized multipart subtype to express the requirement to include a Content-ID header in the parts. For example multipart/events or multipart/http-requests.  This media type should probably also mandate that the parts are sorted in descending time order.  <br/><br/> (The early multipart/package type did something like that IIRC)</li>
-  <li>I do not like that the extensibility of the Event-Type header does not include a reference mechanism to &#8216;follow your nose&#8217; (Update: complex event types (e.g. moves) seem to be useful to some people, hence we should keep the extensibility) </li>
+  <li>I do not like that the extensibility of the Event-Type header does not include a reference mechanism to &#8216;follow your nose&#8217; (Update: complex event types (e.g. moves) seem to be useful to some people, hence we should keep the extensibility)</li>
 </ul>
 <h1 id="rfc.authors">
   <a href="#rfc.authors">Authors' Addresses</a>
@@ -771,7 +772,7 @@ sortiert sein m&#252;ssen)"
 		<span class="family-name">Kiessling</span>
 	  </span>
 	</span>
-	<span class="org vcardline">GALERIA Kaufhof</span>
+	<span class="org vcardline">GALERIA Kaufhof GmbH</span>
 	<span class="adr">
 	  
 	  <span class="vcardline">
@@ -806,7 +807,7 @@ sortiert sein m&#252;ssen)"
 	</span>
 	<span class="vcardline">EMail: <a href="mailto:algermissen@acm.org">algermissen@acm.org</a></span>
 
-<span class="vcardline">URI: <a href="http://www.jalg.net/">http://www.jalg.net/</a></span>
+<span class="vcardline">URI: <a href="http://www.jalg.net">http://www.jalg.net</a></span>
 
   </address>
 </div>
