@@ -179,9 +179,9 @@ The `Event-Type` header takes as its value a key-value pair with the
 key indicating the event type family and the value indicating the event
 type name from the family.
 
-
 Event feed publishers SHOULD only use events from a single family in a
 given feed.
+
 
 The Event Type family http-equiv
 --------------------------------
@@ -201,6 +201,7 @@ about-Link.
 TBD: Provide example of a single part and describe processing.
 
 TBD: Define that the order of the events in a feed is fixed and may not change.
+
 
 Feed Page Syntax Example
 ------------------------
@@ -247,9 +248,7 @@ Feed Page Syntax Example
     Content-Length: 0
       
     --gc0p4Jq0M:2Yt08jU534c0p--
-    
-    
-    
+
 
 Publishing
 ==========
@@ -258,6 +257,7 @@ Publishing Snapshots
 --------------------
 
 TBD
+
 
 Publishing Feeds
 ----------------
@@ -268,12 +268,14 @@ TBD
   (analog https://tools.ietf.org/html/rfc5005) - Make 5005 normative
 - 
 
+
 Consuming
 =========
 
 In order to maintain a consistent state of the sourced entities, it is
 necessary that consumers adhere to the following processing rules
 for snapshots and feeds.
+
 
 Consuming Snapshots
 -------------------
@@ -314,6 +316,7 @@ or error recovery scenarios. Once an initial state has been
 obtained, consumers should process the associated change event feed
 to maintain an up-to-date state of the entities.
 
+
 Consuming Feeds
 ---------------
 
@@ -352,6 +355,7 @@ If consumers that process snapshot and feed in parallel encounter events
 from the snapshot and the feed that apply to the same target resource
 and have the same timestamp they MUST apply the event from the feed,
 not the snapshot entity.
+
 
 Range Requests on Event Feeds
 =============================
@@ -401,6 +405,7 @@ TBD
 
 --- back
 
+
 Acknowledgements
 ================
 
@@ -411,6 +416,7 @@ Frequently Asked Questions
 ==========================
 
 TBD
+
 
 Open Issues
 ===========
