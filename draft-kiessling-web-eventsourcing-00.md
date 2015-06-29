@@ -17,7 +17,7 @@ author:
  -
     ins: M. Kiessling
     name: Manuel Kiessling
-    organization: GALERIA Kaufhof
+    organization: GALERIA Kaufhof GmbH
     email: manuel.kiessling@kaufhof.de
     uri: http://www.galeria-kaufhof.de
  -
@@ -25,13 +25,12 @@ author:
     name: Jan Algermissen
     organization: 
     email: algermissen@acm.org
-    uri: http://www.jalg.net/
+    uri: http://www.jalg.net
     
 normative:
   RFC5005:
   RFC4229:
   RFC7231:
-  
   
 informative:
   RFC5789:
@@ -335,17 +334,18 @@ TBD
     knapp größer als T4 und merkt sich die ID des Events (Event ID ==
     "Content-ID” header des Event-Parts im Feed).
     
-    Für alle diese items holt der Client per GET den aktuellen Stand ab (bei
-    Lösch-Events wird das item gelöscht).
+    Für alle diese items holt der Client per GET den aktuellen Stand ab
+    (bei Lösch-Events wird das item gelöscht).
     
     Danach liest der Client den Feed weiter ab der gemerkten Content-ID.
     (Content-Ids sind per existierendem RFC eindeutig in einem
-    Multipart-Dokument). Ab jetzt können auch PATCH-Updates angewendet werden.
+    Multipart-Dokument). Ab jetzt können auch PATCH-Updates angewendet
+    werden.
     
-    Die Granularität der Timestamps ist dabei egal und es muss eigentlich auch
-    nichts mehr spezifiziert werden (höchstens, dass innerhalb des Feeds die
-    Events jedes gegebenen items im Falle von PATCH-Sematik je item zeitlich
-    sortiert sein müssen)"
+    Die Granularität der Timestamps ist dabei egal und es muss eigentlich
+    auch nichts mehr spezifiziert werden (höchstens, dass innerhalb des
+    Feeds die Events jedes gegebenen items im Falle von PATCH-Sematik je
+    item zeitlich sortiert sein müssen)"
 
 
 If consumers that process snapshot and feed in parallel encounter events
