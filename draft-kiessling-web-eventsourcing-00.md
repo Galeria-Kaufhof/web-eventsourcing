@@ -221,7 +221,7 @@ beginning of a feed, and that events, as identified by their Content-ID,
 do not move in regards to their relative position to other events.
 
 Example: A feed that consists of 3 entries at t1, and grows by the entry
-*48934* at t2, needs to be represented with the followind entry order:
+*48934* at t2, needs to be represented with the following entry order:
 
     --------------------- time -------------------------------------->
     t1                                 t2
@@ -316,6 +316,30 @@ in the feed. The set of entries contained in an archive document
 published at a particular URI SHOULD NOT change over time.  Likewise,
 the URI for a particular archive document SHOULD NOT change over
 time.
+
+The following link relations are used to tie subscription and
+archived feeds together:
+
+- "prev-archive" - A URI that refers to the immediately preceding
+  event archive document.
+
+- "next-archive" - A URI that refers to the immediately following
+  event archive document.
+
+- "current" - A URI that, when dereferenced, returns a feed document
+  containing the most recent event entries in the feed.
+
+Subscription documents and archive documents MUST have a "prev-
+archive" link relation, unless there are no preceding archives
+available.  Archive documents SHOULD also have a "next-archive" link
+relation, unless there are no following archives available.
+
+Archive documents SHOULD indicate their associated subscription
+documents using the "current" link relation.
+
+Archive documents SHOULD also contain an fh:archive element in their
+head sections to indicate that they are archives. fh:archive is an
+empty element; this specification does not define any content for it.
 
 
 Consuming
@@ -498,7 +522,6 @@ Open Issues
   example multipart/events or multipart/http-requests.
   This media type should probably also mandate that the parts
   are sorted in descending time order.
-
   (The early multipart/package type did something like that IIRC)
 
 - I do not like that the extensibility of the Event-Type header
