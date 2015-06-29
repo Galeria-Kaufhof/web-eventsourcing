@@ -28,6 +28,7 @@ author:
     uri: http://www.jalg.net
     
 normative:
+  RFC2119:
   RFC5005:
   RFC4229:
   RFC7231:
@@ -73,7 +74,7 @@ Notational Conventions
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD",
 "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be
-interpreted as described in 
+interpreted as described in [RFC2119].
 
 
 Event Sourcing on The Web
@@ -183,7 +184,7 @@ Event feed publishers SHOULD only use events from a single family in a
 given feed.
 
 
-The Event Type family http-equiv
+The Event-Type family http-equiv
 --------------------------------
 
 This specification defines the event type family 'http-equiv'. The
@@ -195,12 +196,49 @@ same way as they would process an HTTP request equivalent to the given
 event part, HTTP method and a target resource identified by the
 about-Link.
 
+For example, the following event feed entry (or "event-part"):
+
+    Link: </products/7628827272>;rel="about"
     Event-Type: http-equiv=PUT
+    Content-ID: <1234@products.example.org>
+      
+    {"id":"1234", "name":"foo"}
+
+MUST be treated by the consumer in the same way the consumer would treat
+a `PUT` request to the `/products/7628827272` resource with a request
+body of `{"id":"1234", "name":"foo"}` and the entity-related headers of
+the event-part.
 
 
-TBD: Provide example of a single part and describe processing.
+The Content-ID header
+---------------------
 
-TBD: Define that the order of the events in a feed is fixed and may not change.
+Event feed publishers MUST guarantee the order and uniqueness of events
+in a feed, i.e., it must be guaranteed that within one feed (which can
+spread over many documents) each entry is identified by a unique id
+(via the `Content-ID` header), that new events are added at the
+beginning of a feed, and that events, as identified by their Content-ID,
+do not move in regards to their relative position to other events.
+
+Example: A feed that consists of 3 entries at t1, and grows by the entry
+*48934* at t2, needs to be represented with the followind entry order:
+
+    --------------------- time -------------------------------------->
+    t1                                 t2
+    Feed order:                        Feed order:
+    Content-ID: <98346@example.org>    Content-ID: <48934@example.org>
+    Content-ID: <34787@example.org>    Content-ID: <98346@example.org>
+    Content-ID: <28934@example.org>    Content-ID: <34787@example.org>
+                                       Content-ID: <28934@example.org>
+
+
+The ETag header
+---------------------
+
+In order to allow for efficient polling, feed publishers SHOULD make the feed
+available conditionally via the `If-None-Match` request header, and SHOULD
+therefore provide a hard `ETag` for the feed that changes if the feed content
+changes.
 
 
 Feed Page Syntax Example
@@ -262,11 +300,22 @@ TBD
 Publishing Feeds
 ----------------
 
-TBD
-- explain 'latest'
-- explain prev and pre-archive and switching to prev-archive
-  (analog https://tools.ietf.org/html/rfc5005) - Make 5005 normative
-- 
+We treat event feeds very much like archived feeds described in [RFC5005].
+
+An event feed is a set of event feed documents that can be combined to
+accurately reconstruct the entries of a logical event feed.
+
+This is achieved by publishing a single event subscription document and
+(potentially) many event archive documents.
+
+An event subscription document is a feed document that always contains
+the most recently added entries available in the logical feed.
+
+Event archive documents are feed documents that contain less recent entries
+in the feed. The set of entries contained in an archive document
+published at a particular URI SHOULD NOT change over time.  Likewise,
+the URI for a particular archive document SHOULD NOT change over
+time.
 
 
 Consuming
@@ -277,13 +326,13 @@ necessary that consumers adhere to the following processing rules
 for snapshots and feeds.
 
 
-Consuming Snapshots
--------------------
+Initializing via Snapshots and Feeds
+------------------------------------
 
-Snaphsot generation takes a certain amount of time. The start and end
+Snapshot generation takes a certain amount of time. The start and end
 timestamps are provided in the snapshot index. Consumers need to be
 aware that the snapshotted entities may change during the course of
-snapshot generation and that snaphsots are not constrained to include
+snapshot generation and that snapshots are not constrained to include
 any changes that happen during their creation.
 
 In order to reach a consistent state after snapshot processing consumers
@@ -294,7 +343,7 @@ When doing so, consumers SHOULD apply the following rules:
 
 - Start processing the event feed at the timestamp larger or
   equal than the snapshot start timestamp (explicitly including the start
-  timestamp is important in order to cover any changes that ocurred
+  timestamp is important in order to cover any changes that occurred
   within the granularity of the timestamp).
 - Consume the feed until the current timestamp and remember that
   timestamp as the starting point for normal feed consumption
@@ -305,56 +354,81 @@ When doing so, consumers SHOULD apply the following rules:
     http-equiv=PUT semantics.
   - Obtaining the current state of a given entity from the producer
     using an HTTP GET request to the Content-Location associated with
-    the entity.
+    the entity if the event has http-equiv=PATCH semantics.
   - If the snapshot contains an ETag for a given entity such GET
     requests can be made conditional on that ETag.
-
-For the general rules of feed consumption see below.
 
 Snapshots should generally only be consumed for initialization
 or error recovery scenarios. Once an initial state has been
 obtained, consumers should process the associated change event feed
 to maintain an up-to-date state of the entities.
 
+The following diagram shows how to initialize synchronization and how
+to continue synchronization after initialization:
 
-Consuming Feeds
----------------
-
-TBD
-
-    "Eine Snapshot-Generierung startet um T1 und endet um T2
-    Beide Zeitpunkte stehen im Snapshot-index
-    
-    Client startet Snapshot-Konsum um T3 und beendet Snapshot Konsum um T4
-    
-    Mit T1 < T2 < T3 < T4
-    
-    Client muss nun ab einschliesslich T1 den Feed lesen, um zu ermitteln,
-    welche ‘items’ sich während der Snapshot-Erzeugung und Konsum geändert
-    haben.
-    
-    Dabei liest der Client den Feed  ab einschliesslich T1 bis zu einem T5
-    knapp größer als T4 und merkt sich die ID des Events (Event ID ==
-    "Content-ID” header des Event-Parts im Feed).
-    
-    Für alle diese items holt der Client per GET den aktuellen Stand ab
-    (bei Lösch-Events wird das item gelöscht).
-    
-    Danach liest der Client den Feed weiter ab der gemerkten Content-ID.
-    (Content-Ids sind per existierendem RFC eindeutig in einem
-    Multipart-Dokument). Ab jetzt können auch PATCH-Updates angewendet
-    werden.
-    
-    Die Granularität der Timestamps ist dabei egal und es muss eigentlich
-    auch nichts mehr spezifiziert werden (höchstens, dass innerhalb des
-    Feeds die Events jedes gegebenen items im Falle von PATCH-Sematik je
-    item zeitlich sortiert sein müssen)"
+          t: Point in time
+          R: Resource
+          E: Event
+          P: Process step
 
 
-If consumers that process snapshot and feed in parallel encounter events
-from the snapshot and the feed that apply to the same target resource
-and have the same timestamp they MUST apply the event from the feed,
-not the snapshot entity.
+             Client                      Server                                
+          |                                               +  t0:    
+          |  t1: Start consuming ------> Serve snapshot:  |  E1 = PUT R1
+          | [P1] snapshot              |                  |  E2 = PUT R2
+          |                            | +-------------+  |  E3 = PUT R3 
+          |  - Store each R in the     | |             |  |                    
+          |    snapshot locally        | |  R1         |  |  t2:
+          |  - Store ts                | |  R2         |  |  E4 = PATCH R2
+          |                            | |  R3         |  |  E5 = PUT R4    
+          |                            | |             |  |                    
+          |                            | |  ts te      |  |                    
+          |                            | +-------------+  |                    
+          |                            |                  |                    
+    R1  <-------------------------+ t3 v                  |                    
+    R2    |                                               |                    
+    R3    |                                               |                    
+          |  t4: Start consuming ------> Serve feed:      |                    
+          |      feed                                     |                    
+          |                              +-------------+  |                    
+          |  - Find the oldest           |             |  |                    
+          |    event that has            | E5@t2       |  |                    
+          |    Last-Modified >= ts,      | E4@t2       |  |                    
+          |    in this case this         | E3@t0       |  |  t5: 
+          |    is E4                     | E2@t0       |  |  E6 = PATCH R4
+    R1  <-+  - Process E4, and all       | E1@t0       |  |  E7 = DELETE R1                  
+    R2'   |    events that are younger   |             |  |                    
+    R3    |    (in this case, E5)        +-------------+  |                    
+    R4    |  - However, if an event is                    |
+          |    of type PATCH, do not handle               |
+          |    the PATCH itself, but instead              |
+          |    retrieve the current state of              |
+          |    the targeted resource via GET              |
+          |    on the resource URI                        |
+          |  - Store Content-ID of the                    |                    
+          |    event that was processed                   |                    
+          |    last - in this case, E5                    |                    
+          |                                               |                    
+          |  t6: Start consuming ------> Serve feed:      |                    
+          | [P2] feed                                     |                    
+          |                              +-------------+  |                    
+          |  - Find the event with the   |             |  |                    
+          |    Content-ID we stored,     | E7@t5       |  |                    
+          |    in this case E5           | E6@t5       |  |                    
+    R2' <-+  - Process all events        | E5@t2       |  |                    
+    R3    |    that are younger than     | E4@t2       |  |                    
+    R4'   |    the found event, in this  | E3@t0       |  |                    
+          |    case E6 and E7            | E2@t0       |  |                    
+          |  - Store Content-ID of the   | E1@t0       |  |                    
+          |    event that was processed  |             |  |                    
+          |    last - in this case, E7   +-------------+  |                    
+          |  - Repeat at P2; in case of                   |                    
+          v    of a local disaster, purge                 v                    
+               all local data and start at                                     
+               P1                                                              
+                                                                               
+             Order of events:                                                  
+             t0 < ts < t1 < t2 < te < t3 < t4 < t5 < t6                        
 
 
 Range Requests on Event Feeds
@@ -362,40 +436,34 @@ Range Requests on Event Feeds
 
 TBD
 
-- Define range request range 'contentid' to simplify lookup
-  of feed pages by ID
+Define range request range 'contentid' to simplify lookup
+of feed pages by ID
 
-- For example, here we say: "Give me the feed, starting from
-  the page where the provided content ID is located in
+For example, here we say: "Give me the feed, starting from
+the page where the provided content ID is located in"
 
     GET /products/changes/latest
     Range: contentid=<567@products.example.org>-
 
-
     206 Partial Content
-    ....
+    ...
 
-- Similarly we can select several page ranages, if so desired:
+Similarly we can select several page ranges, if so desired:
 
     GET /products/changes/latest
-    Range: contentid=<567@products.example.org>-<877@products.example.org>,<999@products.example.org>-
-
+    Range: contentid=<567@p.e.org>-<877@p.e.org>,<999@p.e.org>-
 
     206 Partial Content
-    ....
+    ...
 
-- Consider using not /latest but the feed resource itself as a target for such requests:
-
+Consider using not /latest but the feed resource itself as a target for such requests:
 
     GET /products/changes
     Range: contentid=<567@products.example.org>-
 
-
     206 Partial Content
-    Link: </products/changes/latest>; rel="last"   (last is from RFC5005)
-    ....
-
-
+    Link: </products/changes/latest>; rel="last"
+    ...
 
 
 Security Considerations
