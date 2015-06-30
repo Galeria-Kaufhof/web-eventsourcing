@@ -186,6 +186,40 @@ header, with a URI pointing to the targeted resource, and the `rel`
 attribute of the relation set to `"about"`.
 
 
+The Event Entry Link Relation
+-----------------------------
+
+Producers MAY provide an additional link relation of type `self` which
+points to a resource that identifies the event entry itself.
+
+See "Resuming feed consumption at a given event" below to learn how clients
+can use this relation to consume the feed more efficiently.
+
+If a producer provides this link relation, it MUST provide them for all
+entries in the feed, and it MUST resolve GET requests to the related
+resources as follows:
+
+Link relation is:
+
+    Link: </changes/1234>;rel="self"
+
+Request is:
+
+    GET /changes/1234
+
+Response is:
+
+    HTTP/1.1 302 Found
+    Location: /changes/latest#1234
+
+if the event still is located within the subscription document, and
+
+    HTTP/1.1 301 Moved Permanently
+    Location: /changes/archive/985/#1234
+
+if by now the event is located on an archived feed page.
+
+
 The Event-Type HTTP Header
 --------------------------
 
@@ -232,8 +266,8 @@ The Content-ID header
 Event feed publishers MUST guarantee the order and uniqueness of events
 in a feed, i.e., it must be guaranteed that within one feed (which can
 spread over many documents) each entry is identified by a unique id
-(via the `Content-ID` header), that new events are added at the
-beginning of a feed, and that events, as identified by their Content-ID,
+(via the `Content-ID` header), that newer (younger) events are added at the
+end of a feed document, and that events, as identified by their Content-ID,
 do not move in regards to their relative position to other events.
 
 Example: A feed that consists of 3 entries at t1, and grows by the entry
@@ -242,10 +276,10 @@ Example: A feed that consists of 3 entries at t1, and grows by the entry
     --------------------- time -------------------------------------->
     t1                                 t2
     Feed order:                        Feed order:
-    Content-ID: <98346@example.org>    Content-ID: <48934@example.org>
-    Content-ID: <34787@example.org>    Content-ID: <98346@example.org>
-    Content-ID: <28934@example.org>    Content-ID: <34787@example.org>
-                                       Content-ID: <28934@example.org>
+    Content-ID: <98346@example.org>    Content-ID: <98346@example.org>
+    Content-ID: <34787@example.org>    Content-ID: <34787@example.org>
+    Content-ID: <28934@example.org>    Content-ID: <28934@example.org>
+                                       Content-ID: <48934@example.org>
 
 
 The ETag header
@@ -273,7 +307,7 @@ Feed Page Syntax Example
  
     --gc0p4Jq0M:2Yt08jU534c0p
     Link: </products/7628827272>;rel="about"
-    Link: <gkh:products:7628827272>;rel="about"
+    Link: </changes/1234>;rel="self"
     Event-Type: http-equiv=PUT
     Content-Type: application/vnd.gkh.product+json
     Last-Modified: Sat, 09 Jan 2014 15:02:23 GMT
@@ -283,7 +317,7 @@ Feed Page Syntax Example
     {"id":"..." , ... }
     --gc0p4Jq0M:2Yt08jU534c0p
     Link: </products/7623288273>;rel="about"
-    Link: <gkh:products:7628827273>;rel="about"
+    Link: </changes/567>;rel="self"
     Event-Type: http-equiv=PATCH
     Content-Type: application/vnd.gkh.product-patch+xml
     Last-Modified: Sat, 09 Jan 2014 15:02:23 GMT
@@ -295,7 +329,7 @@ Feed Page Syntax Example
     </product-patch>
     --gc0p4Jq0M:2Yt08jU534c0p
     Link: </products/3338827272>;rel="about"
-    Link: <gkh:products:3338827272>;rel="about"
+    Link: </changes/899919>;rel="self"
     Event-Type: http-equiv=DELETE
     Last-Modified: Sat, 09 Jan 2014 15:02:23 GMT
     Content-ID: <899919@products.example.org>
@@ -471,39 +505,42 @@ to continue synchronization after initialization:
              t0 < ts < t1 < t2 < te < t3 < t4 < t5 < t6                        
 
 
-Range Requests on Event Feeds
-=============================
 
-TBD
+Resuming feed consumption at a given event
+==========================================
 
-Define range request range 'contentid' to simplify lookup
-of feed pages by ID
+If the client received (and stored) a `self` link relation for the events
+it retrieved, it can use this relation to more efficiently resume further
+feed consumption (compared to always entering via the subscription document
+and working backwards from there).
 
-For example, here we say: "Give me the feed, starting from
-the page where the provided content ID is located in"
+If the link relation of the event last processed by the client was
 
-    GET /products/changes/latest
-    Range: contentid=<567@products.example.org>-
+    Link: </changes/6>;rel="self"
 
-    206 Partial Content
-    ...
+then the client can request the URI in the relation:
 
-Similarly we can select several page ranges, if so desired:
+    GET /changes/6
 
-    GET /products/changes/latest
-    Range: contentid=<567@p.e.org>-<877@p.e.org>,<999@p.e.org>-
+The producer MUST then redirect the consumer to the full document
+containing the referenced event. If the feed is currently structured like
+this:
 
-    206 Partial Content
-    ...
+    /arch/0  /arch/1  /arch/2  /latest
+    +---+    +---+    +---+    +---+  
+    |   <-----P  <-----P  <-----P  |  
+    |   |    |   |    |   |    |   |
+    | 0 |    | 2 |    | 5 |    |   |  
+    | 1 |    | 3 |    | 6 |    | 8 |  
+    |   |    | 4 |    | 7 |    | 9 |
+    |   |    |   |    |   |    |   |
+    |  N----->  N----->  N----->   |  
+    +---+    +---+    +---+    +---+  
 
-Consider using not /latest but the feed resource itself as a target for such requests:
-
-    GET /products/changes
-    Range: contentid=<567@products.example.org>-
-
-    206 Partial Content
-    Link: </products/changes/latest>; rel="last"
-    ...
+then the consumer will be redirected to `/arch/2#6`, where he will find the
+event with content id 6, and can work forward within the multipart document
+and via the `next-archive` link relation to consume and process all events
+that came after event 6.
 
 
 Security Considerations

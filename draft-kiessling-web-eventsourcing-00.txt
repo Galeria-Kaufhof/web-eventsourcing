@@ -5,7 +5,7 @@
 Network Working Group                                       M. Kiessling
 Internet-Draft                                      GALERIA Kaufhof GmbH
 Intended status: Informational                            J. Algermissen
-Expires: December 31, 2015                                 June 29, 2015
+Expires: January 1, 2016                                   June 30, 2015
 
 
       Web Event Sourcing - A Web-based protocol for event sourcing
@@ -35,7 +35,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on December 31, 2015.
+   This Internet-Draft will expire on January 1, 2016.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Kiessling & Algermissen Expires December 31, 2015               [Page 1]
+Kiessling & Algermissen  Expires January 1, 2016                [Page 1]
 
 Internet-Draft             Web Event Sourcing                  June 2015
 
@@ -65,30 +65,32 @@ Table of Contents
 
    1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
      1.1.  Notational Conventions  . . . . . . . . . . . . . . . . .   2
-   2.  Event Sourcing on The Web . . . . . . . . . . . . . . . . . .   2
+   2.  Event Sourcing on The Web . . . . . . . . . . . . . . . . . .   3
    3.  Snapshots . . . . . . . . . . . . . . . . . . . . . . . . . .   3
      3.1.  Snapshot Index Syntax Example . . . . . . . . . . . . . .   3
      3.2.  Snapshot Part Syntax Example  . . . . . . . . . . . . . .   3
    4.  Change Event Feeds  . . . . . . . . . . . . . . . . . . . . .   5
-     4.1.  The Event-Type HTTP Header  . . . . . . . . . . . . . . .   5
-     4.2.  The Event-Type family http-equiv  . . . . . . . . . . . .   5
-     4.3.  The Content-ID header . . . . . . . . . . . . . . . . . .   6
-     4.4.  The ETag header . . . . . . . . . . . . . . . . . . . . .   6
-     4.5.  Feed Page Syntax Example  . . . . . . . . . . . . . . . .   6
-   5.  Publishing  . . . . . . . . . . . . . . . . . . . . . . . . .   7
-     5.1.  Publishing Snapshots  . . . . . . . . . . . . . . . . . .   8
-     5.2.  Publishing Feeds  . . . . . . . . . . . . . . . . . . . .   8
-   6.  Consuming . . . . . . . . . . . . . . . . . . . . . . . . . .   8
-     6.1.  Initializing via Snapshots and Feeds  . . . . . . . . . .   8
-   7.  Range Requests on Event Feeds . . . . . . . . . . . . . . . .  10
-   8.  Security Considerations . . . . . . . . . . . . . . . . . . .  11
-   9.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  11
-     9.1.  Normative References  . . . . . . . . . . . . . . . . . .  11
-     9.2.  Informative References  . . . . . . . . . . . . . . . . .  12
-   Appendix A.  Acknowledgements . . . . . . . . . . . . . . . . . .  12
-   Appendix B.  Frequently Asked Questions . . . . . . . . . . . . .  12
-   Appendix C.  Open Issues  . . . . . . . . . . . . . . . . . . . .  12
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  13
+     4.1.  The Event Target Link Relation  . . . . . . . . . . . . .   5
+     4.2.  The Event Entry Link Relation . . . . . . . . . . . . . .   5
+     4.3.  The Event-Type HTTP Header  . . . . . . . . . . . . . . .   6
+     4.4.  The Event-Type family http-equiv  . . . . . . . . . . . .   6
+     4.5.  The Content-ID header . . . . . . . . . . . . . . . . . .   6
+     4.6.  The ETag header . . . . . . . . . . . . . . . . . . . . .   7
+     4.7.  Feed Page Syntax Example  . . . . . . . . . . . . . . . .   7
+   5.  Publishing  . . . . . . . . . . . . . . . . . . . . . . . . .   8
+     5.1.  Publishing Snapshots  . . . . . . . . . . . . . . . . . .   9
+     5.2.  Publishing Feeds  . . . . . . . . . . . . . . . . . . . .   9
+   6.  Consuming . . . . . . . . . . . . . . . . . . . . . . . . . .  10
+     6.1.  Initializing via Snapshots and Feeds  . . . . . . . . . .  10
+   7.  Resuming feed consumption at a given event  . . . . . . . . .  12
+   8.  Security Considerations . . . . . . . . . . . . . . . . . . .  13
+   9.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  13
+     9.1.  Normative References  . . . . . . . . . . . . . . . . . .  13
+     9.2.  Informative References  . . . . . . . . . . . . . . . . .  13
+   Appendix A.  Acknowledgements . . . . . . . . . . . . . . . . . .  13
+   Appendix B.  Frequently Asked Questions . . . . . . . . . . . . .  14
+   Appendix C.  Open Issues  . . . . . . . . . . . . . . . . . . . .  14
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  14
 
 1.  Introduction
 
@@ -100,19 +102,21 @@ Table of Contents
    "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
    document are to be interpreted as described in [RFC2119].
 
-2.  Event Sourcing on The Web
-
-   TBD
 
 
 
 
 
 
-Kiessling & Algermissen Expires December 31, 2015               [Page 2]
+
+Kiessling & Algermissen  Expires January 1, 2016                [Page 2]
 
 Internet-Draft             Web Event Sourcing                  June 2015
 
+
+2.  Event Sourcing on The Web
+
+   TBD
 
 3.  Snapshots
 
@@ -161,11 +165,7 @@ Internet-Draft             Web Event Sourcing                  June 2015
 
 
 
-
-
-
-
-Kiessling & Algermissen Expires December 31, 2015               [Page 3]
+Kiessling & Algermissen  Expires January 1, 2016                [Page 3]
 
 Internet-Draft             Web Event Sourcing                  June 2015
 
@@ -221,24 +221,78 @@ Internet-Draft             Web Event Sourcing                  June 2015
 
 
 
-Kiessling & Algermissen Expires December 31, 2015               [Page 4]
+Kiessling & Algermissen  Expires January 1, 2016                [Page 4]
 
 Internet-Draft             Web Event Sourcing                  June 2015
 
 
 4.  Change Event Feeds
 
-   TBD
+   A change event feed, or simply event feed, informs clients about
+   changes to the items they already know, or about the addition of new
+   items that were not previously known.
 
-   o  Define the term "event target".
+   A feed is a collection of 1 or more multipart documents that together
+   form one logical feed.  Each part of the multipart document describes
+   one event (called "event entry" from now on).
 
-   o  Define the term "event part".
+4.1.  The Event Target Link Relation
 
-4.1.  The Event-Type HTTP Header
+   Each event entry in the feed MUST reference an existing resource on
+   the server and describe the nature of the event that happened
+   regarding that resource.
+
+   This referenced resource is the "event target".
+
+   Event targets MUST be referenced via a link relation using the "Link"
+   HTTP header, with a URI pointing to the targeted resource, and the
+   "rel" attribute of the relation set to ""about"".
+
+4.2.  The Event Entry Link Relation
+
+   Producers MAY provide an additional link relation of type "self"
+   which points to a resource that identifies the event entry itself.
+
+   See "Resuming feed consumption at a given event" below to learn how
+   clients can use this relation to consume the feed more efficiently.
+
+   If a producer provides this link relation, it MUST provide them for
+   all entries in the feed, and it MUST resolve GET requests to the
+   related resources as follows:
+
+   Link relation is:
+
+   Link: </changes/1234>;rel="self"
+
+   Request is:
+
+   GET /changes/1234
+
+   Response is:
+
+   HTTP/1.1 302 Found
+   Location: /changes/latest#1234
+
+   if the event still is located within the subscription document, and
+
+
+
+Kiessling & Algermissen  Expires January 1, 2016                [Page 5]
+
+Internet-Draft             Web Event Sourcing                  June 2015
+
+
+   HTTP/1.1 301 Moved Permanently
+   Location: /changes/archive/985/#1234
+
+   if by now the event is located on an archived feed page.
+
+4.3.  The Event-Type HTTP Header
 
    This specification defines the "Event-Type" HTTP header to provide
    consumers of change event feeds with information about the nature of
-   the event regarding the event target.
+   the event regarding the event target.  The nature of the event MUST
+   be declared for each event entry.
 
    The "Event-Type" header takes as its value a key-value pair with the
    key indicating the event type family and the value indicating the
@@ -247,18 +301,18 @@ Internet-Draft             Web Event Sourcing                  June 2015
    Event feed publishers SHOULD only use events from a single family in
    a given feed.
 
-4.2.  The Event-Type family http-equiv
+4.4.  The Event-Type family http-equiv
 
    This specification defines the event type family 'http-equiv'.  The
    allowed value set for this family is the set of unsafe HTTP methods,
    such as PUT, PATCH, DELETE, POST.
 
    Consumers of "http-equiv"-typed events MUST process the event in the
-   same way as they would process an HTTP request equivalent to the
-   given event part, HTTP method and a target resource identified by the
-   about-Link.
+   same way as they would process an HTTP request to the event target
+   using the HTTP verb from the http-equiv set defined via the event
+   type header.
 
-   For example, the following event feed entry (or "event-part"):
+   For example, the following event feed entry:
 
    Link: </products/7628827272>;rel="about"
    Event-Type: http-equiv=PUT
@@ -268,50 +322,46 @@ Internet-Draft             Web Event Sourcing                  June 2015
 
    MUST be treated by the consumer in the same way the consumer would
    treat a "PUT" request to the "/products/7628827272" resource with a
-   request body of "{"id":"1234", "name":"foo"}" and the entity-related
-   headers of the event-part.
+   request body of "{"id":"1234", "name":"foo"}".
 
-
-
-
-
-
-
-Kiessling & Algermissen Expires December 31, 2015               [Page 5]
-
-Internet-Draft             Web Event Sourcing                  June 2015
-
-
-4.3.  The Content-ID header
+4.5.  The Content-ID header
 
    Event feed publishers MUST guarantee the order and uniqueness of
    events in a feed, i.e., it must be guaranteed that within one feed
    (which can spread over many documents) each entry is identified by a
-   unique id (via the "Content-ID" header), that new events are added at
-   the beginning of a feed, and that events, as identified by their
-   Content-ID, do not move in regards to their relative position to
-   other events.
+   unique id (via the "Content-ID" header), that newer (younger) events
+
+
+
+Kiessling & Algermissen  Expires January 1, 2016                [Page 6]
+
+Internet-Draft             Web Event Sourcing                  June 2015
+
+
+   are added at the end of a feed document, and that events, as
+   identified by their Content-ID, do not move in regards to their
+   relative position to other events.
 
    Example: A feed that consists of 3 entries at t1, and grows by the
-   entry _48934_ at t2, needs to be represented with the followind entry
+   entry _48934_ at t2, needs to be represented with the following entry
    order:
 
    --------------------- time -------------------------------------->
    t1                                 t2
    Feed order:                        Feed order:
-   Content-ID: <98346@example.org>    Content-ID: <48934@example.org>
-   Content-ID: <34787@example.org>    Content-ID: <98346@example.org>
-   Content-ID: <28934@example.org>    Content-ID: <34787@example.org>
-                                      Content-ID: <28934@example.org>
+   Content-ID: <98346@example.org>    Content-ID: <98346@example.org>
+   Content-ID: <34787@example.org>    Content-ID: <34787@example.org>
+   Content-ID: <28934@example.org>    Content-ID: <28934@example.org>
+                                      Content-ID: <48934@example.org>
 
-4.4.  The ETag header
+4.6.  The ETag header
 
    In order to allow for efficient polling, feed publishers SHOULD make
    the feed available conditionally via the "If-None-Match" request
-   header, and SHOULD therefore provide a hard "ETag" for the feed that
+   header, and SHOULD therefore provide an "ETag" for the feed that
    changes if the feed content changes.
 
-4.5.  Feed Page Syntax Example
+4.7.  Feed Page Syntax Example
 
 
 
@@ -333,7 +383,13 @@ Internet-Draft             Web Event Sourcing                  June 2015
 
 
 
-Kiessling & Algermissen Expires December 31, 2015               [Page 6]
+
+
+
+
+
+
+Kiessling & Algermissen  Expires January 1, 2016                [Page 7]
 
 Internet-Draft             Web Event Sourcing                  June 2015
 
@@ -350,7 +406,7 @@ Internet-Draft             Web Event Sourcing                  June 2015
 
    --gc0p4Jq0M:2Yt08jU534c0p
    Link: </products/7628827272>;rel="about"
-   Link: <gkh:products:7628827272>;rel="about"
+   Link: </changes/1234>;rel="self"
    Event-Type: http-equiv=PUT
    Content-Type: application/vnd.gkh.product+json
    Last-Modified: Sat, 09 Jan 2014 15:02:23 GMT
@@ -360,7 +416,7 @@ Internet-Draft             Web Event Sourcing                  June 2015
    {"id":"..." , ... }
    --gc0p4Jq0M:2Yt08jU534c0p
    Link: </products/7623288273>;rel="about"
-   Link: <gkh:products:7628827273>;rel="about"
+   Link: </changes/567>;rel="self"
    Event-Type: http-equiv=PATCH
    Content-Type: application/vnd.gkh.product-patch+xml
    Last-Modified: Sat, 09 Jan 2014 15:02:23 GMT
@@ -372,7 +428,7 @@ Internet-Draft             Web Event Sourcing                  June 2015
    </product-patch>
    --gc0p4Jq0M:2Yt08jU534c0p
    Link: </products/3338827272>;rel="about"
-   Link: <gkh:products:3338827272>;rel="about"
+   Link: </changes/899919>;rel="self"
    Event-Type: http-equiv=DELETE
    Last-Modified: Sat, 09 Jan 2014 15:02:23 GMT
    Content-ID: <899919@products.example.org>
@@ -389,7 +445,7 @@ Internet-Draft             Web Event Sourcing                  June 2015
 
 
 
-Kiessling & Algermissen Expires December 31, 2015               [Page 7]
+Kiessling & Algermissen  Expires January 1, 2016                [Page 8]
 
 Internet-Draft             Web Event Sourcing                  June 2015
 
@@ -419,6 +475,37 @@ Internet-Draft             Web Event Sourcing                  June 2015
    Likewise, the URI for a particular archive document SHOULD NOT change
    over time.
 
+   The following link relations are used to tie subscription and
+   archived feeds together:
+
+   o  "prev-archive" - A URI that refers to the immediately preceding
+      event archive document.
+
+   o  "next-archive" - A URI that refers to the immediately following
+      event archive document.
+
+   o  "current" - A URI that, when dereferenced, returns a feed document
+      containing the most recent event entries in the feed.
+
+   Subscription documents and archive documents MUST have a "prev-
+   archive" link relation, unless there are no preceding archives
+   available.  Archive documents SHOULD also have a "next-archive" link
+   relation, unless there are no following archives available.
+
+   Archive documents SHOULD indicate their associated subscription
+   documents using the "current" link relation.
+
+   Archive documents SHOULD also contain an fh:archive element in their
+   head sections to indicate that they are archives. fh:archive is an
+   empty element; this specification does not define any content for it.
+
+
+
+Kiessling & Algermissen  Expires January 1, 2016                [Page 9]
+
+Internet-Draft             Web Event Sourcing                  June 2015
+
+
 6.  Consuming
 
    In order to maintain a consistent state of the sourced entities, it
@@ -442,14 +529,6 @@ Internet-Draft             Web Event Sourcing                  June 2015
 
    o  Start processing the event feed at the timestamp larger or equal
       than the snapshot start timestamp (explicitly including the start
-
-
-
-Kiessling & Algermissen Expires December 31, 2015               [Page 8]
-
-Internet-Draft             Web Event Sourcing                  June 2015
-
-
       timestamp is important in order to cover any changes that occurred
       within the granularity of the timestamp).
 
@@ -473,6 +552,15 @@ Internet-Draft             Web Event Sourcing                  June 2015
    error recovery scenarios.  Once an initial state has been obtained,
    consumers should process the associated change event feed to maintain
    an up-to-date state of the entities.
+
+
+
+
+
+Kiessling & Algermissen  Expires January 1, 2016               [Page 10]
+
+Internet-Draft             Web Event Sourcing                  June 2015
+
 
    The following diagram shows how to initialize synchronization and how
    to continue synchronization after initialization:
@@ -498,14 +586,6 @@ Internet-Draft             Web Event Sourcing                  June 2015
        |                            |                  |
  R1  <-------------------------+ t3 v                  |
  R2    |                                               |
-
-
-
-Kiessling & Algermissen Expires December 31, 2015               [Page 9]
-
-Internet-Draft             Web Event Sourcing                  June 2015
-
-
  R3    |                                               |
        |  t4: Start consuming ------> Serve feed:      |
        |      feed                                     |
@@ -530,6 +610,14 @@ Internet-Draft             Web Event Sourcing                  June 2015
        |                                               |
        |  t6: Start consuming ------> Serve feed:      |
        | [P2] feed                                     |
+
+
+
+Kiessling & Algermissen  Expires January 1, 2016               [Page 11]
+
+Internet-Draft             Web Event Sourcing                  June 2015
+
+
        |                              +-------------+  |
        |  - Find the event with the   |             |  |
        |    Content-ID we stored,     | E7@t5       |  |
@@ -549,48 +637,47 @@ Internet-Draft             Web Event Sourcing                  June 2015
           Order of events:
           t0 < ts < t1 < t2 < te < t3 < t4 < t5 < t6
 
-7.  Range Requests on Event Feeds
+7.  Resuming feed consumption at a given event
 
-   TBD
+   If the client received (and stored) a "self" link relation for the
+   events it retrieved, it can use this relation to more efficiently
+   resume further feed consumption (compared to always entering via the
+   subscription document and working backwards from there).
+
+   If the link relation of the event last processed by the client was
+
+   Link: </changes/6>;rel="self"
+
+   then the client can request the URI in the relation:
+
+   GET /changes/6
+
+   The producer MUST then redirect the consumer to the full document
+   containing the referenced event.  If the feed is currently structured
+   like this:
+
+   /arch/0  /arch/1  /arch/2  /latest
+   +---+    +---+    +---+    +---+
+   |   <-----P  <-----P  <-----P  |
+   |   |    |   |    |   |    |   |
+   | 0 |    | 2 |    | 5 |    |   |
+   | 1 |    | 3 |    | 6 |    | 8 |
+   |   |    | 4 |    | 7 |    | 9 |
+   |   |    |   |    |   |    |   |
+   |  N----->  N----->  N----->   |
+   +---+    +---+    +---+    +---+
 
 
 
-
-
-Kiessling & Algermissen Expires December 31, 2015              [Page 10]
+Kiessling & Algermissen  Expires January 1, 2016               [Page 12]
 
 Internet-Draft             Web Event Sourcing                  June 2015
 
 
-   Define range request range 'contentid' to simplify lookup of feed
-   pages by ID
-
-   For example, here we say: "Give me the feed, starting from the page
-   where the provided content ID is located in"
-
-   GET /products/changes/latest
-   Range: contentid=<567@products.example.org>-
-
-   206 Partial Content
-   ...
-
-   Similarly we can select several page ranges, if so desired:
-
-   GET /products/changes/latest
-   Range: contentid=<567@p.e.org>-<877@p.e.org>,<999@p.e.org>-
-
-   206 Partial Content
-   ...
-
-   Consider using not /latest but the feed resource itself as a target
-   for such requests:
-
-   GET /products/changes
-   Range: contentid=<567@products.example.org>-
-
-   206 Partial Content
-   Link: </products/changes/latest>; rel="last"
-   ...
+   then the consumer will be redirected to "/arch/2#6", where he will
+   find the event with content id 6, and can work forward within the
+   multipart document and via the "next-archive" link relation to
+   consume and process all events that came after event 6.
 
 8.  Security Considerations
 
@@ -608,15 +695,6 @@ Internet-Draft             Web Event Sourcing                  June 2015
 
    [RFC5005]  Nottingham, M., "Feed Paging and Archiving", RFC 5005,
               September 2007.
-
-
-
-
-
-Kiessling & Algermissen Expires December 31, 2015              [Page 11]
-
-Internet-Draft             Web Event Sourcing                  June 2015
-
 
    [RFC7231]  Fielding, R. and J. Reschke, "Hypertext Transfer Protocol
               (HTTP/1.1): Semantics and Content", RFC 7231, June 2014.
@@ -642,6 +720,16 @@ Appendix A.  Acknowledgements
 
    Thanks to TBD
 
+
+
+
+
+
+Kiessling & Algermissen  Expires January 1, 2016               [Page 13]
+
+Internet-Draft             Web Event Sourcing                  June 2015
+
+
 Appendix B.  Frequently Asked Questions
 
    TBD
@@ -656,23 +744,13 @@ Appendix C.  Open Issues
       requirement to include a Content-ID header in the parts.  For
       example multipart/events or multipart/http-requests.  This media
       type should probably also mandate that the parts are sorted in
-      descending time order.
-
-      (The early multipart/package type did something like that IIRC)
+      descending time order.  (The early multipart/package type did
+      something like that IIRC)
 
    o  I do not like that the extensibility of the Event-Type header does
       not include a reference mechanism to 'follow your nose' (Update:
       complex event types (e.g. moves) seem to be useful to some people,
       hence we should keep the extensibility)
-
-
-
-
-
-Kiessling & Algermissen Expires December 31, 2015              [Page 12]
-
-Internet-Draft             Web Event Sourcing                  June 2015
-
 
 Authors' Addresses
 
@@ -703,26 +781,4 @@ Authors' Addresses
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Kiessling & Algermissen Expires December 31, 2015              [Page 13]
+Kiessling & Algermissen  Expires January 1, 2016               [Page 14]
