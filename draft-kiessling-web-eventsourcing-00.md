@@ -466,11 +466,11 @@ to continue synchronization after initialization:
           |      feed                                     |                    
           |                              +-------------+  |                    
           |  - Find the oldest           |             |  |                    
-          |    event that has            | E5@t2       |  |                    
-          |    Last-Modified >= ts,      | E4@t2       |  |                    
+          |    event that has            | E1@t2       |  |                    
+          |    Last-Modified >= ts,      | E2@t2       |  |                    
           |    in this case this         | E3@t0       |  |  t5: 
-          |    is E4                     | E2@t0       |  |  E6 = PATCH R4
-    R1  <-+  - Process E4, and all       | E1@t0       |  |  E7 = DELETE R1                  
+          |    is E4                     | E4@t0       |  |  E6 = PATCH R4
+    R1  <-+  - Process E4, and all       | E5@t0       |  |  E7 = DELETE R1                  
     R2'   |    events that are younger   |             |  |                    
     R3    |    (in this case, E5)        +-------------+  |                    
     R4    |  - However, if an event is                    |
@@ -487,13 +487,13 @@ to continue synchronization after initialization:
           | [P2] feed                                     |                    
           |                              +-------------+  |                    
           |  - Find the event with the   |             |  |                    
-          |    Content-ID we stored,     | E7@t5       |  |                    
-          |    in this case E5           | E6@t5       |  |                    
-    R2' <-+  - Process all events        | E5@t2       |  |                    
+          |    Content-ID we stored,     | E1@t5       |  |                    
+          |    in this case E5           | E2@t5       |  |                    
+    R2' <-+  - Process all events        | E3@t2       |  |                    
     R3    |    that are younger than     | E4@t2       |  |                    
-    R4'   |    the found event, in this  | E3@t0       |  |                    
-          |    case E6 and E7            | E2@t0       |  |                    
-          |  - Store Content-ID of the   | E1@t0       |  |                    
+    R4'   |    the found event, in this  | E5@t0       |  |                    
+          |    case E6 and E7            | E6@t0       |  |                    
+          |  - Store Content-ID of the   | E7@t0       |  |                    
           |    event that was processed  |             |  |                    
           |    last - in this case, E7   +-------------+  |                    
           |  - Repeat at P2; in case of                   |                    
